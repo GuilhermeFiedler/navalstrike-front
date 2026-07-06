@@ -3,6 +3,7 @@ import ProtectedRoute from './utils/ProtectedRoute'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Hub from './pages/Hub'
+import Match from './pages/Match'
 
 function App() {
   return (
@@ -12,6 +13,11 @@ function App() {
       <Route path="/hub" element={
         <ProtectedRoute>
           <Hub />
+        </ProtectedRoute>
+      } />
+      <Route path="/match/:id" element={
+        <ProtectedRoute>
+          <Match />
         </ProtectedRoute>
       } />
       <Route path="*" element={<Navigate to="/hub" />} />

@@ -29,9 +29,11 @@ export default function Hub() {
     setError("");
     try {
       const res = await api.post("/matches");
+      
       const { matchId } = res.data;
       navigate(`/match/${matchId}`);
     } catch (err) {
+      
       setError(err.response?.data?.message || "Erro ao criar partida");
     } finally {
       setLoading(false);
