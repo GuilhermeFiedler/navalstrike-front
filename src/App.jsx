@@ -1,25 +1,21 @@
-import { useState } from 'react'
-
-import './App.css'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import ProtectedRoute from './utils/ProtectedRoute'
-/*  Batalha Naval com Fog of War — multiplayer, cada jogador só enxerga o próprio tabuleiro e o resultado dos tiros que dá no adversário.
-  Requisitos:
-  • Tabuleiro 10x10, frota padrão (5 navios: 5, 4, 3, 3, 2)
-  • Multiplayer com 2 jogadores, turnos alternados
-  • Servidor autoritativo — em hipótese alguma o cliente pode receber o estado do tabuleiro do oponente
-  • Resultado dos tiros: erro, acerto ou afundado (revelando o tipo do navio)
-  • Cadastro e login de usuários
-  • Aplicação publicada (deploy) e acessível para jogar online
-  • Testes automatizados cobrindo as regras de domínio
-  • README com stack escolhida, arquitetura e justificativas*/
-function App() {
+import Login from './pages/Login'
+import Register from './pages/Register'
+import Hub from './pages/Hub'
 
-  return(
-    <Route path="/hub" element={
-      <ProtectedRoute>
-      <Hub />
-      </ProtectedRoute>
-    } />
+function App() {
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/hub" element={
+        <ProtectedRoute>
+          <Hub />
+        </ProtectedRoute>
+      } />
+      <Route path="*" element={<Navigate to="/hub" />} />
+    </Routes>
   )
 }
 
