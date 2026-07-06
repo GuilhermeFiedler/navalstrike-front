@@ -23,9 +23,10 @@ export default function Register() {
     }
     try {
       await register(name, email, password, passwordConfirmation);
-      navigate("/login");
+      navigate("/hub");
     } catch (err) {
-      const message = err.message || "Erro ao cadastrar usuário";
+      const message =
+        err.response?.data?.message || err.message || "Erro ao cadastrar usuário";
       setError(message);
     }
   }
@@ -35,7 +36,7 @@ export default function Register() {
       <div className={styles.registerCard}>
         <header className={styles.header}>
           <div className={styles.brand}>
-            <h1>Wikius</h1>
+            <h1>NavalStrike</h1>
           </div>
 
           <h2>Criar conta</h2>

@@ -17,7 +17,9 @@ export default function Login() {
       alert("Login bem sucedido");
       navigate("/hub");
     } catch (err) {
-      alert("Não foi possivel fazer login, verifique seus dados.");
+      const message =
+        err.response?.data?.message || err.message || "Erro ao fazer login.";
+      setError(message);
     }
   }
   return (
@@ -26,7 +28,7 @@ export default function Login() {
     <div className={styles.loginCard}>
       <header className={styles.header}>
         <div className={styles.brand}>
-          <h1>Wikius</h1>
+          <h1>NavalStrike</h1>
         </div>
 
         <h2>Bem-vindo</h2>

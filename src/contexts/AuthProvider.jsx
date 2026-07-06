@@ -1,43 +1,44 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import AuthContext from "./AuthContext";
-import { jwtDecode } from "jwt-decode";
+import api from "../utils/api";
 
-export default function AuthProvider({children})
-{
-    const [token, setToken] = useState(() => localStorage.getItem("token"));
+export default function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    const[loading, setLoading] = useState(false);
-    const user = token ? jwtDecode(token) : null;
+  useEffect(() => {
+    api.get("/auth/me")
+      .then((res) => setUser(res.data))
+      .catch(() => setUser(null))
+      .finally(() => setLoading(false));
+  }, []);
 
-    const login = useCallback(async (email, password) => {
-        setLoading(true);
-        try {
-            const res = await api.post("/auth/login", {email, password});
-            console.log("LOGIN RESPONSE:", res.data);
-            const token = res.data.token;
+  const login = useCallback(async (email, password) => {
+    const res = await api.post("/auth/login", { email, password });
+    setUser(res.data); 
+  }, []);
 
-            localStorage.setItem("token", token);
-            setToken(token);
-        } finally {
-            setLoading(false);
-        }
-    }, []);
+  const register = useCallback(async (name, email, password, passwordConfirmation) => {
+    const res = await api.post("/auth/register", { name, email, password, passwordConfirmation });
+    setUser(res.data); 
+  }, []);
 
-   const logout = useCallback(() => {
-    localStorage.removeItem("token");
-    setToken(null);
-   },[]);
-   
-   return (
+  const logout = useCallback(async () => {
+    await api.post("/auth/logout");
+    setUser(null);
+  }, []);
+
+  if (loading) return null;
+
+  return (
     <AuthContext.Provider
       value={{
-        token,
         user,
         loading,
         login,
         logout,
         register,
-        isAuthenticated: !!token
+        isAuthenticated: !!user,
       }}
     >
       {children}
