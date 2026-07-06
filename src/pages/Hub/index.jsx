@@ -30,8 +30,8 @@ export default function Hub() {
     try {
       const res = await api.post("/matches");
       
-      const { matchId } = res.data;
-      navigate(`/match/${matchId}`);
+      const { matchId, code } = res.data;
+      navigate(`/match/${matchId}`, { state: { code } });
     } catch (err) {
       
       setError(err.response?.data?.message || "Erro ao criar partida");
