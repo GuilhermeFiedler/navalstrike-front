@@ -3,7 +3,7 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useMatchSocket from "../../hooks/useMatchSocket";
 import api from "../../utils/api";
-import Board from "../../components/Board";
+import Board from "../../components/board/Board";
 import Placing from "./Placing";
 
 export default function Match() {

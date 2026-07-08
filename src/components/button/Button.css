@@ -1,0 +1,123 @@
+.btn {
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 12px 24px;
+  cursor: pointer;
+  border: 4px solid;
+  transition: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn:active {
+  transform: translateY(2px);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary {
+  color: var(--on-primary);
+  background-color: var(--primary);
+  border-color: var(--primary);
+  border-top-color: #0a4a6e;
+  border-left-color: #0a4a6e;
+  border-bottom-color: #001520;
+  border-right-color: #001520;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-container);
+}
+
+.btn-primary:active {
+  border-top-color: #001520;
+  border-left-color: #001520;
+  border-bottom-color: #0a4a6e;
+  border-right-color: #0a4a6e;
+}
+
+.btn-secondary {
+  color: var(--on-secondary);
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+  border-top-color: #cc4455;
+  border-left-color: #cc4455;
+  border-bottom-color: #6b1a27;
+  border-right-color: #6b1a27;
+}
+
+.btn-secondary:hover {
+  background-color: #891a2c;
+}
+
+.btn-secondary:active {
+  border-top-color: #6b1a27;
+  border-left-color: #6b1a27;
+  border-bottom-color: #cc4455;
+  border-right-color: #cc4455;
+}
+
+.btn-tertiary {
+  color: var(--on-tertiary);
+  background-color: var(--on-tertiary-container);
+  border-color: var(--on-tertiary-container);
+  border-top-color: #e6b020;
+  border-left-color: #e6b020;
+  border-bottom-color: #7a5500;
+  border-right-color: #7a5500;
+}
+
+.btn-tertiary:hover {
+  background-color: var(--tertiary-container);
+}
+
+.btn-tertiary:active {
+  border-top-color: #7a5500;
+  border-left-color: #7a5500;
+  border-bottom-color: #e6b020;
+  border-right-color: #e6b020;
+}
+
+.btn-ghost {
+  color: var(--primary);
+  background-color: transparent;
+  border-color: var(--primary);
+  border-width: 2px;
+}
+
+.btn-ghost:hover {
+  background-color: var(--surface-container-high);
+}
+
+.btn-ghost:active {
+  background-color: var(--surface-dim);
+}
+
+.btn-danger {
+  color: var(--on-error);
+  background-color: var(--error);
+  border-color: var(--error);
+  border-top-color: #dd3333;
+  border-left-color: #dd3333;
+  border-bottom-color: #6b0a0a;
+  border-right-color: #6b0a0a;
+}
+
+.btn-danger:hover {
+  background-color: #93000a;
+}
+
+.btn-danger:active {
+  border-top-color: #6b0a0a;
+  border-left-color: #6b0a0a;
+  border-bottom-color: #dd3333;
+  border-right-color: #dd3333;
+}

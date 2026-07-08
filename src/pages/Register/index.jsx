@@ -1,16 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import Button from "../../components/button/Button";
 import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
 import styles from "./Register.module.css";
 
 export default function Register() {
-  const { register, loading } = useAuth();
+  const { register } = useAuth();
   const [error, setError] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
@@ -21,6 +21,8 @@ export default function Register() {
       setError("As senhas não conferem");
       return;
     }
+
+    setLoading(true);
     try {
       await register(name, email, password, passwordConfirmation);
       navigate("/hub");
@@ -28,84 +30,125 @@ export default function Register() {
       const message =
         err.response?.data?.message || err.message || "Erro ao cadastrar usuário";
       setError(message);
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
     <div className={styles.page}>
-      <div className={styles.registerCard}>
-        <header className={styles.header}>
-          <div className={styles.brand}>
-            <h1>NavalStrike</h1>
-          </div>
 
-          <h2>Criar conta</h2>
-          <p>Preencha os dados abaixo para começar</p>
+      <div className={styles.formTag}>Form: 1040-Navy</div>
+
+
+      <div className={styles.decorDots}>
+        <div className={styles.dot}></div>
+        <div className={styles.dot}></div>
+        <div className={styles.dot}></div>
+      </div>
+
+
+      <div className={styles.registerCard}>
+        <header className={styles.cardHeader}>
+          <h1>Portal de Alistamento</h1>
         </header>
 
         <form className={styles.form} onSubmit={handleSubmit}>
-          <div className={styles.inputGroup}>
-            <label>Nome de usuário</label>
-            <input
-              type="text"
-              placeholder="Digite seu nome de usuário"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
 
           <div className={styles.inputGroup}>
-            <label>Email</label>
-            <input
-              type="email"
-              placeholder="Digite seu email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <label htmlFor="name">Nome de Usuário</label>
+            <div className={styles.inputWrapper}>
+              <span className={styles.inputIcon}>👤</span>
+              <input
+                id="name"
+                type="text"
+                placeholder="Insira seu nome"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                autoComplete="username"
+              />
+            </div>
           </div>
+
 
           <div className={styles.inputGroup}>
-            <label>Senha</label>
-            <input
-              type="password"
-              placeholder="Digite sua senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <label htmlFor="email">Email</label>
+            <div className={styles.inputWrapper}>
+              <span className={styles.inputIcon}>✉️</span>
+              <input
+                id="email"
+                type="email"
+                placeholder="navio@strike.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+              />
+            </div>
           </div>
 
-          <div className={styles.inputGroup}>
-            <label>Confirmar senha</label>
-            <input
-              type="password"
-              placeholder="Confirme sua senha"
-              value={passwordConfirmation}
-              onChange={(e) => setPasswordConfirmation(e.target.value)}
-              required
-            />
+
+          <div className={styles.passwordRow}>
+            <div className={styles.inputGroup}>
+              <label htmlFor="password">Senha de segurança</label>
+              <div className={styles.inputWrapper}>
+                <span className={styles.inputIcon}>🔑</span>
+                <input
+                  id="password"
+                  type="password"
+                  placeholder="********"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  autoComplete="new-password"
+                />
+              </div>
+            </div>
+
+            <div className={styles.inputGroup}>
+              <label htmlFor="passwordConfirmation">Confirmar Senha</label>
+              <div className={styles.inputWrapper}>
+                <span className={styles.inputIcon}>🔒</span>
+                <input
+                  id="passwordConfirmation"
+                  type="password"
+                  placeholder="********"
+                  value={passwordConfirmation}
+                  onChange={(e) => setPasswordConfirmation(e.target.value)}
+                  required
+                  autoComplete="new-password"
+                />
+              </div>
+            </div>
           </div>
 
-{error && <p className={styles.error}>{error}</p>}
+          {error && <p className={styles.error}>{error}</p>}
 
-          <div className={styles.actions}>
-            <Button variant="registerButton" type="submit">
-              {loading ? "Cadastrando..." : "Cadastrar-se"}
-            </Button>
-
-            <Button variant="cancelButton" onClick={() => navigate("/hub")}>
-              Cancelar
-            </Button>
-          </div>
+          <button type="submit" className={styles.submitBtn} disabled={loading}>
+            {loading ? "Cadastrando..." : " Cadastrar-se →"}
+          </button>
         </form>
+
+        <div className={styles.divider}>
+          <span>ou</span>
+        </div>
 
         <footer className={styles.footer}>
           <p>
-            Já possui conta? <a href="/login">Entrar</a>
+            Já cadastrado?{" "}
+            <a href="/login" onClick={(e) => { e.preventDefault(); navigate("/login"); }}>
+              Faça Login
+            </a>
           </p>
         </footer>
+      </div>
+
+
+      <div className={styles.bottomDots}>
+        <div className={styles.bottomDot}></div>
+        <div className={styles.bottomDot}></div>
+        <div className={styles.bottomDot}></div>
       </div>
     </div>
   );

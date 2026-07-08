@@ -1,0 +1,303 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--surface);
+  padding: var(--space-5);
+  position: relative;
+}
+
+.formTag {
+  position: absolute;
+  top: var(--space-5);
+  left: var(--space-5);
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--on-primary);
+  background-color: var(--primary);
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-sm) solid var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.decorDots {
+  position: absolute;
+  top: var(--space-5);
+  right: var(--space-5);
+  display: flex;
+  gap: var(--space-2);
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+}
+
+.dot:nth-child(1) {
+  background-color: var(--secondary);
+}
+
+.dot:nth-child(2) {
+  background-color: var(--tertiary-container);
+}
+
+.dot:nth-child(3) {
+  background-color: var(--primary);
+}
+
+.registerCard {
+  width: 100%;
+  max-width: 580px;
+  background-color: var(--surface-container-low);
+  border: var(--border-lg) solid var(--primary);
+  padding: var(--space-7) var(--space-6);
+  position: relative;
+}
+
+.cardHeader {
+  text-align: center;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: var(--border-sm) solid var(--primary-container);
+}
+
+.cardHeader h1 {
+  font-family: var(--font-pixel);
+  font-size: 20px;
+  line-height: 32px;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.inputGroup label {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  line-height: 16px;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputWrapper input {
+  width: 100%;
+  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-8);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--on-primary);
+  background-color: var(--primary);
+  border: var(--border-sm) solid var(--primary-container);
+  outline: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.inputWrapper input::placeholder {
+  color: var(--on-primary-container);
+  text-transform: uppercase;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.inputWrapper input:focus {
+  border-color: var(--on-primary-container);
+  background-color: var(--primary-container);
+}
+
+.inputIcon {
+  position: absolute;
+  left: var(--space-3);
+  color: var(--on-primary-container);
+  font-size: 16px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.passwordRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.error {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--secondary);
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-sm) solid var(--secondary);
+  background-color: var(--error-container);
+}
+
+.submitBtn {
+  width: 100%;
+  padding: var(--space-4) var(--space-5);
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  color: var(--on-secondary);
+  background-color: var(--secondary);
+  border: var(--border-lg) solid var(--secondary);
+  border-top-color: #cc4455;
+  border-left-color: #cc4455;
+  border-bottom-color: #6b1a27;
+  border-right-color: #6b1a27;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: none;
+  margin-top: var(--space-3);
+}
+
+.submitBtn:hover {
+  background-color: #891a2c;
+  border-color: #891a2c;
+  border-top-color: #a93342;
+  border-left-color: #a93342;
+  border-bottom-color: #5a0f1d;
+  border-right-color: #5a0f1d;
+}
+
+.submitBtn:active {
+  border-top-color: #6b1a27;
+  border-left-color: #6b1a27;
+  border-bottom-color: #cc4455;
+  border-right-color: #cc4455;
+  transform: translateY(2px);
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: var(--space-4) 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: var(--border-sm);
+  background: linear-gradient(
+    to right,
+    var(--primary-container),
+    var(--surface-dim)
+  );
+}
+
+.divider span {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--outline);
+  text-transform: uppercase;
+}
+
+.footer {
+  text-align: center;
+  margin-top: var(--space-4);
+}
+
+.footer p {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+}
+
+.footer a {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--primary);
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.footer a:hover {
+  color: var(--secondary);
+}
+
+.bottomDots {
+  display: flex;
+  gap: var(--space-5);
+  margin-top: var(--space-5);
+  padding: var(--space-3) var(--space-7);
+  border: var(--border-sm) solid var(--primary);
+}
+
+.bottomDot {
+  width: 6px;
+  height: 6px;
+}
+
+.bottomDot:nth-child(1) {
+  background-color: var(--secondary);
+}
+
+.bottomDot:nth-child(2) {
+  background-color: var(--on-tertiary-container);
+}
+
+.bottomDot:nth-child(3) {
+  background-color: var(--secondary);
+}
+
+@media (max-width: 540px) {
+  .page {
+    padding: var(--space-4);
+  }
+
+  .registerCard {
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .cardHeader h1 {
+    font-size: 14px;
+  }
+
+  .passwordRow {
+    grid-template-columns: 1fr;
+  }
+
+  .formTag {
+    position: relative;
+    top: auto;
+    left: auto;
+    margin-bottom: var(--space-4);
+    align-self: flex-start;
+  }
+
+  .decorDots {
+    position: relative;
+    top: auto;
+    right: auto;
+    align-self: flex-end;
+    margin-bottom: var(--space-3);
+  }
+}
