@@ -22,7 +22,10 @@ export default function Hub() {
   async function fetchMatches() {
     setLoading(true);
     try {
-      const res = await api.get("/matches");
+      const [res] = await Promise.all([
+        api.get("/matches"),
+        new Promise((r) => setTimeout(r, 1500)),
+      ]);
       setMatches(res.data);
     } catch {
       setMatches([]);
@@ -112,7 +115,7 @@ export default function Hub() {
           {loading && (
             <div className={styles.loadingCard}>
               <span className={styles.loadingIcon}>⟳</span>
-              <span className={styles.loadingText}>Buscando novos sectores...</span>
+              <span className={styles.loadingText}>Buscando novos setores...</span>
             </div>
           )}
 
