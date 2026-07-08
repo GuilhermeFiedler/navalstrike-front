@@ -2,13 +2,17 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import api from "../../utils/api";
+import Sidebar from "../../components/sidebar/Sidebar";
+import MatchCard from "./MatchCard";
+import JoinByCode from "./JoinByCode";
+import styles from "./Hub.module.css";
 
 export default function Hub() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const [matches, setMatches] = useState([]);
-  const [code, setCode] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [creating, setCreating] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,39 +20,35 @@ export default function Hub() {
   }, []);
 
   async function fetchMatches() {
+    setLoading(true);
     try {
       const res = await api.get("/matches");
       setMatches(res.data);
     } catch {
       setMatches([]);
-    }
-  }
-
-  async function handleCreate() {
-    setLoading(true);
-    setError("");
-    try {
-      const res = await api.post("/matches");
-      
-      const { matchId, code } = res.data;
-      navigate(`/match/${matchId}`, { state: { code } });
-    } catch (err) {
-      
-      setError(err.response?.data?.message || "Erro ao criar partida");
     } finally {
       setLoading(false);
     }
   }
 
-  async function handleJoinByCode(e) {
-    e.preventDefault();
+  async function handleCreate() {
+    setCreating(true);
     setError("");
-    if (code.length !== 6) {
-      setError("O código deve ter 6 caracteres");
-      return;
-    }
     try {
-      const res = await api.post("/matches/join-by-code", { code: code.toUpperCase() });
+      const res = await api.post("/matches");
+      const { matchId, code } = res.data;
+      navigate(`/match/${matchId}`, { state: { code } });
+    } catch (err) {
+      setError(err.response?.data?.message || "Erro ao criar partida");
+    } finally {
+      setCreating(false);
+    }
+  }
+
+  async function handleJoinByCode(code) {
+    setError("");
+    try {
+      const res = await api.post("/matches/join-by-code", { code });
       navigate(`/match/${res.data.matchId}`);
     } catch (err) {
       setError(err.response?.data?.message || "Código inválido ou partida indisponível");
@@ -65,58 +65,66 @@ export default function Hub() {
     }
   }
 
+  function handleConnect(matchId) {
+    navigate(`/match/${matchId}`);
+  }
+
   return (
-    <div className="hub-page">
-      <header className="hub-header">
-        <h1>Naval Strike</h1>
-        <div>
-          <span>{user.name}</span>
-          <button onClick={logout}>Sair</button>
-        </div>
-      </header>
+    <div className={styles.layout}>
+      <Sidebar />
 
-      <main className="hub-content">
-        {error && <p className="error">{error}</p>}
+      <main className={styles.content}>
+        <header className={styles.header}>
+          <h1 className={styles.title}>Listagem de Partidas</h1>
+          <div className={styles.headerActions}>
+            <button
+              className={styles.btnRefresh}
+              onClick={fetchMatches}
+              disabled={loading}
+            >
+              Atualizar Lista
+            </button>
+            <button
+              className={styles.btnCreate}
+              onClick={handleCreate}
+              disabled={creating}
+            >
+              {creating ? "Criando..." : "Nova Partida"}
+            </button>
+          </div>
+        </header>
 
-        <section>
-          <button onClick={handleCreate} disabled={loading}>
-            {loading ? "Criando..." : "Criar Partida"}
-          </button>
-        </section>
+        {error && <p className={styles.error}>{error}</p>}
 
-        <section>
-          <h2>Entrar por código</h2>
-          <form onSubmit={handleJoinByCode}>
-            <input
-              type="text"
-              maxLength={6}
-              placeholder="Ex: A3X9K2"
-              value={code}
-              onChange={(e) => setCode(e.target.value.toUpperCase())}
+        <JoinByCode onJoin={handleJoinByCode} onError={setError} />
+
+        <div className={styles.matchList}>
+          {matches.map((match) => (
+            <MatchCard
+              key={match.id}
+              match={match}
+              userId={user?.id}
+              onConnect={handleConnect}
+              onJoin={handleJoin}
             />
-            <button type="submit">Entrar</button>
-          </form>
-        </section>
+          ))}
 
-        <section>
-          <h2>Partidas disponíveis</h2>
-          <button onClick={fetchMatches} type="button">Atualizar</button>
-
-          {matches.length === 0 ? (
-            <p>Nenhuma partida disponível no momento.</p>
-          ) : (
-            <ul className="match-list">
-              {matches.map((match) => (
-                <li key={match.id}>
-                  <span>{match.hostName}</span>
-                  <span>{match.code}</span>
-                  <span>{new Date(match.createdAt).toLocaleTimeString()}</span>
-                  <button onClick={() => handleJoin(match.id)}>Entrar</button>
-                </li>
-              ))}
-            </ul>
+          {loading && (
+            <div className={styles.loadingCard}>
+              <span className={styles.loadingIcon}>⟳</span>
+              <span className={styles.loadingText}>Buscando novos sectores...</span>
+            </div>
           )}
-        </section>
+
+          {!loading && matches.length === 0 && (
+            <div className={styles.emptyState}>
+              <span>⚓</span>
+              <span className={styles.emptyText}>
+                Nenhuma partida disponível no momento.
+              </span>
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );

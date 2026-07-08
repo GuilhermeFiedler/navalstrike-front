@@ -1,0 +1,37 @@
+import { useState } from "react";
+import styles from "./Hub.module.css";
+
+export default function JoinByCode({ onJoin, onError }) {
+  const [code, setCode] = useState("");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (code.length !== 6) {
+      onError("O código deve ter 6 caracteres");
+      return;
+    }
+    onJoin(code.toUpperCase());
+  }
+
+  return (
+    <form className={styles.codeSection} onSubmit={handleSubmit}>
+      <label className={styles.codeLabel} htmlFor="matchCode">
+        Entrar por código
+      </label>
+      <div className={styles.codeInputGroup}>
+        <input
+          id="matchCode"
+          className={styles.codeInput}
+          type="text"
+          maxLength={6}
+          placeholder="EX: A3X9K2"
+          value={code}
+          onChange={(e) => setCode(e.target.value.toUpperCase())}
+        />
+        <button type="submit" className={styles.btnConnect}>
+          Ingressar
+        </button>
+      </div>
+    </form>
+  );
+}
