@@ -16,6 +16,7 @@ export default function Match() {
   const [match, setMatch] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [notification, setNotification] = useState(null);
   const matchIdRef = useRef(id);
 
   useEffect(() => {
@@ -31,6 +32,19 @@ export default function Match() {
       .catch((err) => setError(err.response?.data?.message || "Erro ao carregar partida"))
       .finally(() => setLoading(false));
   }, [id]);
+
+  const SHIP_NAMES = {
+    CARRIER: "Porta-aviões",
+    BATTLESHIP: "Encouraçado",
+    CRUISER: "Cruzador",
+    SUBMARINE: "Submarino",
+    DESTROYER: "Destroyer",
+  };
+
+  function showNotification(msg) {
+    setNotification(msg);
+    setTimeout(() => setNotification(null), 3500);
+  }
 
   const handleEvent = useCallback((event) => {
     switch (event.type) {
@@ -54,9 +68,18 @@ export default function Match() {
         break;
 
       case "ATTACK_RESULT": {
-        const { x, y, hit } = event.payload;
+        const { x, y, hit, sunk, shipType } = event.payload;
         const attackerId = event.playerId;
         const isMyAttack = attackerId === user.id;
+
+        if (sunk) {
+          const name = SHIP_NAMES[shipType] || "Navio";
+          if (isMyAttack) {
+            showNotification(`${name} inimigo destruído!`);
+          } else {
+            showNotification(`Seu ${name} foi destruído!`);
+          }
+        }
 
         setMatch((prev) => {
           if (!prev) return prev;
@@ -162,6 +185,7 @@ export default function Match() {
       </header>
 
       {error && <p className="error">{error}</p>}
+      {notification && <div className={styles.notification}>{notification}</div>}
 
       {match.status === "WAITING" && <Waiting code={state?.code} />}
       {match.status === "PLACING" && (
