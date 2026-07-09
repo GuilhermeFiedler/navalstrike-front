@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useMatchSocket from "../../hooks/useMatchSocket";
@@ -14,34 +14,41 @@ export default function Match() {
   const [match, setMatch] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
-
+  const matchIdRef = useRef(id);
 
   useEffect(() => {
-    fetchMatch();
+    matchIdRef.current = id;
   }, [id]);
 
-  async function fetchMatch() {
-    try {
-      const res = await api.get(`/matches/${id}`);
-      setMatch(res.data);
-    } catch (err) {
-      setError(err.response?.data?.message || "Erro ao carregar partida");
-    } finally {
-      setLoading(false);
-    }
-  }
-
+  useEffect(() => {
+    setMatch(null);
+    setError("");
+    setLoading(true);
+    api.get(`/matches/${id}`)
+      .then((res) => setMatch(res.data))
+      .catch((err) => setError(err.response?.data?.message || "Erro ao carregar partida"))
+      .finally(() => setLoading(false));
+  }, [id]);
 
   const handleEvent = useCallback((event) => {
     switch (event.type) {
-      case "PLAYER_JOINED":
+      case "_SOCKET_CONNECTED":
+        api.get(`/matches/${matchIdRef.current}`)
+          .then((res) => setMatch(res.data))
+          .catch(() => {});
+        break;
 
-        setMatch((prev) => ({ ...prev, status: "PLACING" }));
+      case "PLAYER_JOINED":
+        setMatch((prev) => prev ? { ...prev, status: "PLACING" } : prev);
+        break;
+
+      case "SHIPS_PLACED":
         break;
 
       case "GAME_STARTED":
-
-        fetchMatch();
+        api.get(`/matches/${matchIdRef.current}`)
+          .then((res) => setMatch(res.data))
+          .catch(() => {});
         break;
 
       case "ATTACK_RESULT": {
@@ -50,10 +57,10 @@ export default function Match() {
         const isMyAttack = attackerId === user.id;
 
         setMatch((prev) => {
+          if (!prev) return prev;
           const updated = { ...prev };
 
           if (isMyAttack) {
-
             const board = { ...updated.opponentBoard };
             if (hit) {
               board.hits = [...(board.hits || []), { x, y }];
@@ -63,7 +70,6 @@ export default function Match() {
             updated.opponentBoard = board;
             updated.currentTurn = hit ? user.id : null;
           } else {
-
             const board = { ...updated.myBoard };
             if (hit) {
               board.hits = [...(board.hits || []), { x, y }];
@@ -80,27 +86,32 @@ export default function Match() {
       }
 
       case "GAME_OVER":
-        setMatch((prev) => ({
+        setMatch((prev) => prev ? ({
           ...prev,
           status: "FINISHED",
           winnerId: event.payload.winnerId,
-        }));
+        }) : prev);
         break;
 
       case "PLAYER_FORFEIT":
-        setMatch((prev) => ({
+        setMatch((prev) => prev ? ({
           ...prev,
           status: "FINISHED",
           winnerId: event.payload.winnerId,
           forfeitedBy: event.payload.quitterId,
-        }));
+        }) : prev);
         break;
     }
   }, [user?.id]);
 
-
   const { connected } = useMatchSocket(id, handleEvent);
 
+  async function handlePlaced() {
+    try {
+      const res = await api.get(`/matches/${matchIdRef.current}`);
+      setMatch(res.data);
+    } catch {}
+  }
 
   async function handleLeave() {
     const inProgress = match && (match.status === "PLACING" || match.status === "ON_GOING");
@@ -141,7 +152,7 @@ export default function Match() {
 
       {match.status === "WAITING" && <Waiting code={state?.code} />}
       {match.status === "PLACING" && (
-        <Placing matchId={id} myBoard={match.myBoard} onPlaced={fetchMatch} />
+        <Placing matchId={id} myBoard={match.myBoard} onPlaced={handlePlaced} />
       )}
       {match.status === "ON_GOING" && (
         <OnGoing
