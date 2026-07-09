@@ -1,9 +1,10 @@
 import { useState } from "react";
-import api from "../../utils/api";
-import { SHIPS } from "./shipConfig";
+import api from "../../../utils/api";
+import { SHIPS } from "../shipConfig";
 import { getShipCoords, hasCollision } from "./placingUtils";
 import PlacingBoard from "./PlacingBoard";
-import ShipList from "./ShipList";
+import ShipList from "../ShipList";
+import styles from "../Match.module.css";
 
 export default function Placing({ matchId, onPlaced }) {
   const [placedShips, setPlacedShips] = useState([]);
@@ -65,17 +66,17 @@ export default function Placing({ matchId, onPlaced }) {
   }
 
   return (
-    <div className="phase-placing">
+    <div className={styles.placing}>
       <h2>Posicione seus navios</h2>
 
       {!allPlaced && currentShip && (
-        <div className="placing-info">
+        <div className={styles.placingInfo}>
           <p>
             Posicionando: <strong>{currentShip.label}</strong>
           </p>
           <p>
             Orientação:{" "}
-            <button onClick={toggleOrientation}>
+            <button className={styles.placingInfoBtn} onClick={toggleOrientation}>
               {orientation === "horizontal" ? "Horizontal ↔" : "Vertical ↕"}
             </button>
           </p>
@@ -88,13 +89,15 @@ export default function Placing({ matchId, onPlaced }) {
 
       {error && <p className="error">{error}</p>}
 
-      <PlacingBoard
-        placedShips={placedShips}
-        preview={preview}
-        onCellClick={handleClick}
-        onCellHover={handleHover}
-        onCellLeave={() => setPreview([])}
-      />
+      <div className={styles.glassPanel}>
+        <PlacingBoard
+          placedShips={placedShips}
+          preview={preview}
+          onCellClick={handleClick}
+          onCellHover={handleHover}
+          onCellLeave={() => setPreview([])}
+        />
+      </div>
 
       <ShipList
         placedCount={placedShips.length}

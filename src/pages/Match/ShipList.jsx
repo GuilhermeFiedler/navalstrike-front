@@ -1,15 +1,20 @@
 import { SHIPS } from "./shipConfig";
+import styles from "./Match.module.css";
 
 export default function ShipList({ placedCount, currentIndex }) {
   return (
-    <div className="ship-list">
+    <div className={styles.shipList}>
       <h3>Navios</h3>
       <ul>
         {SHIPS.map((ship, i) => (
           <li
             key={ship.type}
             className={
-              i < placedCount ? "placed" : i === currentIndex ? "current" : ""
+              i < placedCount
+                ? styles.shipListPlaced
+                : i === currentIndex
+                ? styles.shipListCurrent
+                : ""
             }
           >
             {ship.label} {i < placedCount ? "✓" : ""}

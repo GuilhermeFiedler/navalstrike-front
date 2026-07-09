@@ -1,3 +1,5 @@
+import styles from "../../../components/board/Board.module.css";
+
 const COL_HEADERS = "ABCDEFGHIJ".split("");
 const SIZE = 10;
 
@@ -6,25 +8,25 @@ export default function PlacingBoard({ placedShips, preview, onCellClick, onCell
     const isPlaced = placedShips.some((ship) =>
       ship.coordinates.some((c) => c.x === x && c.y === y)
     );
-    if (isPlaced) return "board-cell board-cell--ship";
+    if (isPlaced) return `${styles.cell} ${styles.ship}`;
 
     const isPreview = preview.some((c) => c.x === x && c.y === y);
-    if (isPreview) return "board-cell board-cell--preview";
+    if (isPreview) return `${styles.cell} ${styles.preview}`;
 
-    return "board-cell";
+    return styles.cell;
   }
 
   return (
-    <div className="board">
-      <div className="board-row">
-        <div className="board-cell board-cell--header"></div>
+    <div className={styles.board}>
+      <div className={styles.row}>
+        <div className={`${styles.cell} ${styles.header}`}></div>
         {COL_HEADERS.map((letter, i) => (
-          <div key={i} className="board-cell board-cell--header">{letter}</div>
+          <div key={i} className={`${styles.cell} ${styles.header}`}>{letter}</div>
         ))}
       </div>
       {Array.from({ length: SIZE }, (_, y) => (
-        <div key={y} className="board-row">
-          <div className="board-cell board-cell--header">{y + 1}</div>
+        <div key={y} className={styles.row}>
+          <div className={`${styles.cell} ${styles.header}`}>{y + 1}</div>
           {Array.from({ length: SIZE }, (_, x) => (
             <div
               key={`${x}-${y}`}

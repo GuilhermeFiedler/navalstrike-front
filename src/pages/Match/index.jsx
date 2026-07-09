@@ -4,7 +4,9 @@ import useAuth from "../../hooks/useAuth";
 import useMatchSocket from "../../hooks/useMatchSocket";
 import api from "../../utils/api";
 import Board from "../../components/board/Board";
-import Placing from "./Placing";
+import OceanShader from "../../components/OceanShader";
+import Placing from "./placing/Placing";
+import styles from "./Match.module.css";
 
 export default function Match() {
   const { id } = useParams();
@@ -52,7 +54,7 @@ export default function Match() {
         break;
 
       case "ATTACK_RESULT": {
-        const { x, y, hit, sunk, gameOver } = event.payload;
+        const { x, y, hit } = event.payload;
         const attackerId = event.playerId;
         const isMyAttack = attackerId === user.id;
 
@@ -120,9 +122,7 @@ export default function Match() {
       if (!confirmed) return;
       try {
         await api.post(`/matches/${id}/forfeit`);
-      } catch {
-        // Ignorar erro (partida pode já ter terminado)
-      }
+      } catch {}
     }
     navigate("/hub");
   }
@@ -135,6 +135,13 @@ export default function Match() {
     }
   }
 
+  function getLeaveLabel() {
+    if (!match) return "← VOLTAR";
+    if (match.status === "PLACING") return "✕ CANCELAR";
+    if (match.status === "ON_GOING") return "⚐ DESISTIR";
+    return "← VOLTAR";
+  }
+
   if (loading) return <p>Carregando...</p>;
   if (error && !match) return <p className="error">{error}</p>;
   if (!match) return null;
@@ -142,10 +149,16 @@ export default function Match() {
   const isMyTurn = match.currentTurn === user.id;
 
   return (
-    <div className="match-page">
-      <header className="match-header">
-        <button onClick={handleLeave}>← Voltar</button>
-        <span>{connected ? "Conectado" : "Desconectado"}</span>
+    <div className={styles.page}>
+      <OceanShader className={styles.shaderBg} />
+
+      <header className={styles.header}>
+        <button className={styles.headerBtn} onClick={handleLeave}>
+          {getLeaveLabel()}
+        </button>
+        <span className={styles.headerStatus}>
+          {connected ? "● Conectado" : "○ Desconectado"}
+        </span>
       </header>
 
       {error && <p className="error">{error}</p>}
@@ -155,11 +168,7 @@ export default function Match() {
         <Placing matchId={id} myBoard={match.myBoard} onPlaced={handlePlaced} />
       )}
       {match.status === "ON_GOING" && (
-        <OnGoing
-          match={match}
-          isMyTurn={isMyTurn}
-          onAttack={handleAttack}
-        />
+        <OnGoing match={match} isMyTurn={isMyTurn} onAttack={handleAttack} />
       )}
       {match.status === "FINISHED" && (
         <Finished winnerId={match.winnerId} userId={user.id} forfeitedBy={match.forfeitedBy} />
@@ -170,12 +179,10 @@ export default function Match() {
 
 function Waiting({ code }) {
   return (
-    <div className="phase-waiting">
+    <div className={styles.waiting}>
       <h2>Aguardando oponente...</h2>
-      <p>Compartilhe o código da sala com seu amigo:</p>
-      <div className="code-display">
-        <strong>{code || "..."}</strong>
-      </div>
+      <p>Compartilhe o código da sala:</p>
+      <div className={styles.codeDisplay}>{code || "..."}</div>
       <p>O jogo começará automaticamente quando alguém entrar.</p>
     </div>
   );
@@ -183,22 +190,28 @@ function Waiting({ code }) {
 
 function OnGoing({ match, isMyTurn, onAttack }) {
   return (
-    <div className="phase-ongoing">
-      <h2>{isMyTurn ? "Sua vez! Ataque!" : "Vez do oponente..."}</h2>
+    <div className={styles.ongoing}>
+      <div className={isMyTurn ? styles.turnIndicatorActive : styles.turnIndicator}>
+        {isMyTurn ? "🚀 SEU TURNO" : "⏳ VEZ DO OPONENTE"}
+      </div>
 
-      <div className="boards">
-        <div>
-          <h3>Seu tabuleiro</h3>
-          <Board board={match.myBoard} showShips={true} disabled={true} />
+      <div className={styles.boards}>
+        <div className={styles.boardSection}>
+          <h3 className={styles.boardLabel}>Setor Alvo</h3>
+          <div className={styles.glassPanel}>
+            <Board
+              board={match.opponentBoard}
+              showShips={false}
+              onCellClick={isMyTurn ? onAttack : undefined}
+              disabled={!isMyTurn}
+            />
+          </div>
         </div>
-        <div>
-          <h3>Tabuleiro inimigo</h3>
-          <Board
-            board={match.opponentBoard}
-            showShips={false}
-            onCellClick={isMyTurn ? onAttack : undefined}
-            disabled={!isMyTurn}
-          />
+        <div className={styles.boardSection}>
+          <h3 className={styles.boardLabelOwn}>Sua Frota</h3>
+          <div className={styles.glassPanel}>
+            <Board board={match.myBoard} showShips={true} disabled={true} />
+          </div>
         </div>
       </div>
     </div>
@@ -210,15 +223,15 @@ function Finished({ winnerId, userId, forfeitedBy }) {
   const opponentForfeited = forfeitedBy && forfeitedBy !== userId;
 
   return (
-    <div className="phase-finished">
-      <h2>{won ? "Você venceu!" : "Você perdeu!"}</h2>
+    <div className={styles.finished}>
+      <h2>{won ? "⚓ VITÓRIA!" : "💀 DERROTA"}</h2>
       <p>
         {opponentForfeited
           ? "O oponente abandonou a partida."
           : forfeitedBy === userId
           ? "Você abandonou a partida."
           : won
-          ? "Parabéns, todos os navios inimigos foram afundados!"
+          ? "Todos os navios inimigos foram afundados!"
           : "Seus navios foram todos afundados."}
       </p>
     </div>
