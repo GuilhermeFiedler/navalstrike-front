@@ -1,16 +1,37 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import AuthContext from "./AuthContext";
 import api from "../utils/api";
+import LoadingScreen from "../components/LoadingScreen";
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const intervalRef = useRef(null);
 
   useEffect(() => {
-    api.get("/auth/me")
-      .then((res) => setUser(res.data))
-      .catch(() => setUser(null))
-      .finally(() => setLoading(false));
+    const start = Date.now();
+
+    intervalRef.current = setInterval(() => {
+      const elapsed = Date.now() - start;
+      const p = Math.min(90, (elapsed / 2000) * 90);
+      setProgress(p);
+    }, 50);
+
+    Promise.all([
+      api.get("/auth/me").then((res) => res.data).catch(() => null),
+      new Promise((r) => setTimeout(r, 2000)),
+    ])
+      .then(([userData]) => {
+        setUser(userData);
+        setProgress(100);
+        clearInterval(intervalRef.current);
+      })
+      .finally(() => {
+        setTimeout(() => setLoading(false), 300);
+      });
+
+    return () => clearInterval(intervalRef.current);
   }, []);
 
   const login = useCallback(async (email, password) => {
@@ -28,7 +49,7 @@ export default function AuthProvider({ children }) {
     setUser(null);
   }, []);
 
-  if (loading) return null;
+  if (loading) return <LoadingScreen progress={progress} />;
 
   return (
     <AuthContext.Provider

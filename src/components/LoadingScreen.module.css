@@ -1,0 +1,318 @@
+.screen {
+  position: fixed;
+  inset: 0;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow: hidden;
+  image-rendering: pixelated;
+}
+
+.crtOverlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.04) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 42, 70, 0.04), transparent);
+  animation: scanlineMove 8s linear infinite;
+  pointer-events: none;
+  z-index: 11;
+}
+
+@keyframes scanlineMove {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  padding: 0 var(--space-6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 4px solid var(--surface-container-highest);
+  background: var(--surface);
+  z-index: 50;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.anchor {
+  font-size: 24px;
+}
+
+.title {
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.headerTag {
+  font-family: var(--font-body);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--primary);
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--secondary);
+  animation: blink 1.2s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+  width: 100%;
+  max-width: 600px;
+  padding: 0 var(--space-5);
+  z-index: 5;
+}
+
+.radar {
+  position: relative;
+  width: 256px;
+  height: 256px;
+  border-radius: 50%;
+  border: 4px solid var(--primary);
+  background: var(--surface-container-low);
+  box-shadow: inset 0 0 20px rgba(0, 42, 70, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radarGrid1 {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 42, 70, 0.15);
+  transform: scale(0.75);
+}
+
+.radarGrid2 {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 42, 70, 0.1);
+  transform: scale(0.5);
+}
+
+.radarGrid3 {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 42, 70, 0.05);
+  transform: scale(0.25);
+}
+
+.radarAxisH {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: rgba(0, 42, 70, 0.15);
+}
+
+.radarAxisV {
+  position: absolute;
+  height: 100%;
+  width: 1px;
+  background: rgba(0, 42, 70, 0.15);
+}
+
+.radarSweep {
+  position: absolute;
+  bottom: 50%;
+  left: calc(50% - 2px);
+  width: 4px;
+  height: 50%;
+  background: linear-gradient(0deg, rgba(0, 42, 70, 0.7) 0%, transparent 100%);
+  transform-origin: bottom center;
+  animation: sweep 4s linear infinite;
+}
+
+@keyframes sweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.blip1 {
+  position: absolute;
+  top: 25%;
+  left: 33%;
+  width: 10px;
+  height: 10px;
+  background: var(--secondary);
+  animation: blink 1.5s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.blip2 {
+  position: absolute;
+  bottom: 33%;
+  right: 25%;
+  width: 8px;
+  height: 8px;
+  background: var(--primary);
+  animation: blink 2s ease-in-out infinite;
+  animation-delay: 1.2s;
+}
+
+.radarCenter {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--primary);
+  text-align: center;
+  line-height: 1.6;
+  z-index: 2;
+}
+
+.progressSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-family: var(--font-body);
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.percent {
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  color: var(--primary);
+}
+
+.progressBar {
+  height: 40px;
+  width: 100%;
+  background: var(--surface-container-low);
+  padding: 4px;
+  border: 4px solid var(--primary);
+  display: flex;
+  gap: 3px;
+}
+
+.segment {
+  flex: 1;
+  height: 100%;
+  background: rgba(0, 42, 70, 0.1);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.segmentFilled {
+  background: var(--primary);
+  box-shadow: 0 0 4px rgba(0, 42, 70, 0.3);
+}
+
+.statusScroll {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--primary);
+  opacity: 0.7;
+  text-transform: uppercase;
+  font-style: italic;
+  height: 20px;
+  overflow: hidden;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--primary);
+  opacity: 0.5;
+  border-top: 1px solid rgba(0, 42, 70, 0.08);
+  z-index: 50;
+}
+
+.footerLeft {
+  display: flex;
+  gap: var(--space-6);
+}
+
+.footerRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+@media (min-width: 768px) {
+  .radar {
+    width: 320px;
+    height: 320px;
+  }
+}
+
+@media (max-width: 480px) {
+  .radar {
+    width: 200px;
+    height: 200px;
+  }
+
+  .title {
+    font-size: 11px;
+  }
+
+  .headerRight {
+    display: none;
+  }
+}
