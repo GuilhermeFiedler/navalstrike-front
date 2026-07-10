@@ -1,0 +1,249 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+  padding: var(--space-6) var(--space-8);
+  background-color: var(--surface);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+}
+
+.title {
+  font-family: var(--font-pixel);
+  font-size: 20px;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.headerActions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.btnRefresh {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: var(--space-3) var(--space-5);
+  cursor: pointer;
+  border: 3px solid var(--primary);
+  background-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.btnRefresh:hover {
+  background-color: var(--primary-container);
+}
+
+.btnRefresh:active {
+  transform: translateY(2px);
+}
+
+.btnRefresh:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.error {
+  color: var(--secondary);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: var(--space-4);
+}
+
+.statsRow {
+  display: flex;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.statCard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  border: 3px solid var(--primary);
+  background-color: var(--surface-container-low);
+}
+
+.statCard.statVictory {
+  border-color: var(--primary);
+}
+
+.statCard.statDefeat {
+  border-color: var(--secondary);
+}
+
+.statValue {
+  font-family: var(--font-pixel);
+  font-size: 20px;
+  color: var(--on-surface);
+}
+
+.statVictory .statValue {
+  color: var(--primary);
+}
+
+.statDefeat .statValue {
+  color: var(--secondary);
+}
+
+.statLabel {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.matchList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.matchCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border: 3px solid var(--primary);
+  background-color: var(--surface-container-low);
+}
+
+.matchIcon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--primary);
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.matchIconVictory {
+  background-color: var(--primary);
+}
+
+.matchIconDefeat {
+  background-color: var(--surface-container-high);
+  border-color: var(--secondary);
+}
+
+.matchInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.matchOpponent {
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  color: var(--on-surface);
+  text-transform: uppercase;
+}
+
+.matchDate {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  color: var(--on-surface-variant);
+}
+
+.matchResult {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+}
+
+.resultTag {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  padding: var(--space-1) var(--space-3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.resultVictory {
+  background-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.resultDefeat {
+  background-color: var(--secondary);
+  color: var(--on-secondary);
+}
+
+.forfeitTag {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  padding: var(--space-1) var(--space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 2px solid var(--outline);
+  color: var(--on-surface-variant);
+}
+
+.loadingCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-7) var(--space-5);
+  border: 3px dashed var(--primary);
+  background-color: var(--surface-container-low);
+}
+
+.loadingIcon {
+  font-size: 24px;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loadingText {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-7) var(--space-5);
+  border: 3px dashed var(--outline);
+  background-color: var(--surface-container-low);
+}
+
+.emptyText {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}

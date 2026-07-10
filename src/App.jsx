@@ -4,6 +4,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Hub from './pages/Hub'
 import Match from './pages/Match'
+import Logbook from './pages/Logbook'
 
 function App() {
   return (
@@ -13,6 +14,11 @@ function App() {
       <Route path="/hub" element={
         <ProtectedRoute>
           <Hub />
+        </ProtectedRoute>
+      } />
+      <Route path="/logbook" element={
+        <ProtectedRoute>
+          <Logbook />
         </ProtectedRoute>
       } />
       <Route path="/match/:id" element={
