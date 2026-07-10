@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import LogoutButton from "../logout/LogoutButton";
 import styles from "./Sidebar.module.css";
 
 export default function Sidebar() {
@@ -36,6 +37,8 @@ export default function Sidebar() {
           </button>
         ))}
       </nav>
+
+      <LogoutButton />
     </aside>
   );
 }
