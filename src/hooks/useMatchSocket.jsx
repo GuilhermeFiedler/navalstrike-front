@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
+const WS_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/ws`;
 
 export default function useMatchSocket(matchId, onEvent) {
   const [connected, setConnected] = useState(false);
@@ -22,7 +23,7 @@ export default function useMatchSocket(matchId, onEvent) {
     }
 
     const client = new Client({
-      webSocketFactory: () => new SockJS("http://localhost:8080/ws"),
+      webSocketFactory: () => new SockJS(WS_URL),
       reconnectDelay: 3000,
       onConnect: () => {
         if (cancelled) return;
