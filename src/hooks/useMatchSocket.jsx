@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
+
 const WS_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/ws`;
 
-export default function useMatchSocket(matchId, onEvent) {
+export default function useMatchSocket(matchId, token, onEvent) {
   const [connected, setConnected] = useState(false);
   const onEventRef = useRef(onEvent);
   const prevClientRef = useRef(null);
@@ -13,7 +14,7 @@ export default function useMatchSocket(matchId, onEvent) {
   }, [onEvent]);
 
   useEffect(() => {
-    if (!matchId) return;
+    if (!matchId || !token) return;
 
     let cancelled = false;
 
@@ -24,6 +25,9 @@ export default function useMatchSocket(matchId, onEvent) {
 
     const client = new Client({
       webSocketFactory: () => new SockJS(WS_URL),
+      connectHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
       reconnectDelay: 3000,
       onConnect: () => {
         if (cancelled) return;
@@ -52,7 +56,7 @@ export default function useMatchSocket(matchId, onEvent) {
       setConnected(false);
       client.deactivate();
     };
-  }, [matchId]);
+  }, [matchId, token]);
 
   return { connected };
 }

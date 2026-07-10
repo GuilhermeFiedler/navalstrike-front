@@ -5,6 +5,7 @@ import LoadingScreen from "../components/LoadingScreen";
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const intervalRef = useRef(null);
@@ -22,8 +23,11 @@ export default function AuthProvider({ children }) {
       api.get("/auth/me").then((res) => res.data).catch(() => null),
       new Promise((r) => setTimeout(r, 2000)),
     ])
-      .then(([userData]) => {
-        setUser(userData);
+      .then(([data]) => {
+        if (data) {
+          setUser({ id: data.id, name: data.name });
+          setToken(data.token);
+        }
         setProgress(100);
         clearInterval(intervalRef.current);
       })
@@ -36,17 +40,20 @@ export default function AuthProvider({ children }) {
 
   const login = useCallback(async (email, password) => {
     const res = await api.post("/auth/login", { email, password });
-    setUser(res.data); 
+    setUser({ id: res.data.id, name: res.data.name });
+    setToken(res.data.token);
   }, []);
 
   const register = useCallback(async (name, email, password, passwordConfirmation) => {
     const res = await api.post("/auth/register", { name, email, password, passwordConfirmation });
-    setUser(res.data); 
+    setUser({ id: res.data.id, name: res.data.name });
+    setToken(res.data.token);
   }, []);
 
   const logout = useCallback(async () => {
     await api.post("/auth/logout");
     setUser(null);
+    setToken(null);
   }, []);
 
   if (loading) return <LoadingScreen progress={progress} />;
@@ -55,6 +62,7 @@ export default function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         user,
+        token,
         loading,
         login,
         logout,

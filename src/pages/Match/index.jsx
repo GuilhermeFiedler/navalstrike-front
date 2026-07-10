@@ -10,7 +10,7 @@ import styles from "./Match.module.css";
 
 export default function Match() {
   const { id } = useParams();
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const navigate = useNavigate();
   const { state } = useLocation();
   const [match, setMatch] = useState(null);
@@ -129,7 +129,7 @@ export default function Match() {
     }
   }, [user?.id]);
 
-  const { connected } = useMatchSocket(id, handleEvent);
+  const { connected } = useMatchSocket(id, token, handleEvent);
 
   async function handlePlaced() {
     try {
