@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
+import OceanShader from "../../components/OceanShader";
 import styles from "./Register.module.css";
 
 export default function Register() {
@@ -37,6 +38,7 @@ export default function Register() {
 
   return (
     <div className={styles.page}>
+      <OceanShader className={styles.shaderBg} />
 
       <div className={styles.formTag}>Form: 1040-Navy</div>
 
