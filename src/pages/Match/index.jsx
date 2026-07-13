@@ -54,7 +54,15 @@ export default function Match() {
 
   function refreshMatch() {
     api.get(`/matches/${matchIdRef.current}`)
-      .then((res) => setMatch(res.data))
+      .then((res) => {
+        setMatch((prev) => {
+          if (prev?.status === "FINISHED") return prev;
+          if (res.data.status === "FINISHED" && !res.data.winnerId) {
+            return prev;
+          }
+          return res.data;
+        });
+      })
       .catch(() => {});
   }
 
