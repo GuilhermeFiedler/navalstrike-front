@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useMatchSocket from "../../hooks/useMatchSocket";
+import useSoundFX from "../../hooks/useSoundFX";
 import api from "../../utils/api";
 import Board from "../../components/board/Board";
 import Legend from "../../components/Legend/Legend";
@@ -18,7 +19,9 @@ export default function Match() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState(null);
+  const [explosions, setExplosions] = useState([]);
   const matchIdRef = useRef(id);
+  const { playHit, playMiss, playSunk } = useSoundFX();
 
   useEffect(() => {
     matchIdRef.current = id;
@@ -72,6 +75,18 @@ export default function Match() {
         const { x, y, hit, sunk, shipType } = event.payload;
         const attackerId = event.playerId;
         const isMyAttack = attackerId === user.id;
+
+        if (sunk) {
+          playSunk();
+        } else if (hit) {
+          playHit();
+        } else {
+          playMiss();
+        }
+
+        if (hit) {
+          setExplosions((prev) => [...prev, { x, y, id: `${x}-${y}-${Date.now()}`, isMyAttack }]);
+        }
 
         if (sunk) {
           const name = SHIP_NAMES[shipType] || "Navio";
@@ -134,9 +149,13 @@ export default function Match() {
         }) : prev);
         break;
     }
-  }, [user?.id]);
+  }, [user?.id, playHit, playMiss, playSunk]);
 
   const { connected } = useMatchSocket(id, token, handleEvent);
+
+  function handleExplosionEnd(x, y) {
+    setExplosions((prev) => prev.filter((e) => !(e.x === x && e.y === y)));
+  }
 
   async function handlePlaced() {
     try {
@@ -199,7 +218,13 @@ export default function Match() {
         <Placing matchId={id} myBoard={match.myBoard} onPlaced={handlePlaced} />
       )}
       {match.status === "ON_GOING" && (
-        <OnGoing match={match} isMyTurn={isMyTurn} onAttack={handleAttack} />
+        <OnGoing
+          match={match}
+          isMyTurn={isMyTurn}
+          onAttack={handleAttack}
+          explosions={explosions}
+          onExplosionEnd={handleExplosionEnd}
+        />
       )}
       {match.status === "FINISHED" && (
         <Finished winnerId={match.winnerId} userId={user.id} forfeitedBy={match.forfeitedBy} />
@@ -219,7 +244,10 @@ function Waiting({ code }) {
   );
 }
 
-function OnGoing({ match, isMyTurn, onAttack }) {
+function OnGoing({ match, isMyTurn, onAttack, explosions = [], onExplosionEnd }) {
+  const opponentExplosions = explosions.filter((e) => e.isMyAttack);
+  const myBoardExplosions = explosions.filter((e) => !e.isMyAttack);
+
   return (
     <div className={styles.ongoing}>
       <div className={isMyTurn ? styles.turnIndicatorActive : styles.turnIndicator}>
@@ -235,6 +263,8 @@ function OnGoing({ match, isMyTurn, onAttack }) {
               showShips={false}
               onCellClick={isMyTurn ? onAttack : undefined}
               disabled={!isMyTurn}
+              explosions={opponentExplosions}
+              onExplosionEnd={onExplosionEnd}
             />
           </div>
         </div>
@@ -242,7 +272,13 @@ function OnGoing({ match, isMyTurn, onAttack }) {
           <h3 className={styles.boardLabelOwn}>Sua Frota</h3>
           <div className={styles.boardWithLegend}>
             <div className={styles.glassPanel}>
-              <Board board={match.myBoard} showShips={true} disabled={true} />
+              <Board
+                board={match.myBoard}
+                showShips={true}
+                disabled={true}
+                explosions={myBoardExplosions}
+                onExplosionEnd={onExplosionEnd}
+              />
             </div>
             <Legend />
           </div>

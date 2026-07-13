@@ -1,11 +1,12 @@
 import styles from "./Board.module.css";
 import ShipOverlay from "../ships/ShipOverlay";
+import Explosion from "./Explosion";
 import oceanBg from "../../assets/ocean8bits.png";
 import acertoImg from "../../assets/acerto.png";
 import erroImg from "../../assets/erro.png";
 import navioAfundadoImg from "../../assets/navioafundado.png";
 
-export default function Board({ board, onCellClick, showShips = false, disabled = false }) {
+export default function Board({ board, onCellClick, showShips = false, disabled = false, explosions = [], onExplosionEnd }) {
   const size = 10;
 
   function isSunkCoordinate(x, y) {
@@ -55,6 +56,11 @@ export default function Board({ board, onCellClick, showShips = false, disabled 
       case "sunk": return navioAfundadoImg;
       default: return null;
     }
+
+  }
+
+  function hasExplosion(x, y) {
+    return explosions.some((e) => e.x === x && e.y === y);
   }
 
   function handleClick(x, y) {
@@ -85,6 +91,7 @@ export default function Board({ board, onCellClick, showShips = false, disabled 
           {Array.from({ length: size }, (_, x) => {
             const state = getCellState(x, y);
             const image = getCellImage(state);
+            const exploding = hasExplosion(x, y);
             return (
               <div
                 key={`${x}-${y}`}
@@ -92,14 +99,18 @@ export default function Board({ board, onCellClick, showShips = false, disabled 
                 onClick={() => handleClick(x, y)}
                 role={onCellClick && !disabled ? "button" : undefined}
                 aria-label={`${colHeaders[x]}${y + 1} - ${state}`}
+                style={{ position: "relative" }}
               >
-                {image && (
+                {image && !exploding && (
                   <img
                     src={image}
                     alt={state}
                     className={styles.cellIcon}
                     draggable={false}
                   />
+                )}
+                {exploding && (
+                  <Explosion onEnd={() => onExplosionEnd?.(x, y)} />
                 )}
               </div>
             );
