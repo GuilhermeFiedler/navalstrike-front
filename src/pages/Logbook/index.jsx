@@ -3,10 +3,13 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import api from "../../utils/api";
 import styles from "./Logbook.module.css";
 
+const PAGE_SIZE = 5;
+
 export default function Logbook() {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     fetchHistory();
@@ -21,6 +24,7 @@ export default function Logbook() {
         new Promise((r) => setTimeout(r, 800)),
       ]);
       setHistory(res.data);
+      setPage(0);
     } catch {
       setError("Erro ao carregar histórico de partidas");
       setHistory([]);
@@ -42,6 +46,8 @@ export default function Logbook() {
 
   const victories = history.filter((m) => m.result === "VICTORY").length;
   const defeats = history.filter((m) => m.result === "DEFEAT").length;
+  const totalPages = Math.ceil(history.length / PAGE_SIZE);
+  const paginatedHistory = history.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
 
   return (
     <div className={styles.layout}>
@@ -81,7 +87,7 @@ export default function Logbook() {
         )}
 
         <div className={styles.matchList}>
-          {history.map((match) => (
+          {paginatedHistory.map((match) => (
             <div key={match.id} className={styles.matchCard}>
               <div
                 className={`${styles.matchIcon} ${
@@ -137,6 +143,28 @@ export default function Logbook() {
             </div>
           )}
         </div>
+
+        {totalPages > 1 && (
+          <div className={styles.pagination}>
+            <button
+              className={styles.pageBtn}
+              onClick={() => setPage((p) => p - 1)}
+              disabled={page === 0}
+            >
+              ← Anterior
+            </button>
+            <span className={styles.pageInfo}>
+              {page + 1} / {totalPages}
+            </span>
+            <button
+              className={styles.pageBtn}
+              onClick={() => setPage((p) => p + 1)}
+              disabled={page >= totalPages - 1}
+            >
+              Próxima →
+            </button>
+          </div>
+        )}
       </main>
     </div>
   );
