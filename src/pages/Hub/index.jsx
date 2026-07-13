@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import useLobbyMusic from "../../hooks/useLobbyMusic";
 import api from "../../utils/api";
 import Sidebar from "../../components/sidebar/Sidebar";
 import MatchCard from "./MatchCard";
@@ -9,6 +10,7 @@ import styles from "./Hub.module.css";
 
 export default function Hub() {
   const { user } = useAuth();
+  const { playing, toggle } = useLobbyMusic();
   const [matches, setMatches] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -131,6 +133,14 @@ export default function Hub() {
             </div>
           )}
         </div>
+
+        <button
+          className={styles.btnMusic}
+          onClick={toggle}
+          aria-label={playing ? "Pausar música" : "Tocar música"}
+        >
+          {playing ? "🔊" : "🔇"}
+        </button>
       </main>
     </div>
   );

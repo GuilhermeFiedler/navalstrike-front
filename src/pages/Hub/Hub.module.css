@@ -29,6 +29,31 @@
   gap: var(--space-3);
 }
 
+.btnMusic {
+  position: fixed;
+  bottom: var(--space-5);
+  right: var(--space-5);
+  font-size: 16px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  opacity: 0.5;
+  z-index: 50;
+}
+
+.btnMusic:hover {
+  opacity: 1;
+}
+
+.btnMusic:active {
+  transform: translateY(2px);
+}
+
 .btnRefresh {
   font-family: var(--font-pixel);
   font-size: 10px;
