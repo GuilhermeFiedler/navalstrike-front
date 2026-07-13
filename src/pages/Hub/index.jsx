@@ -26,7 +26,10 @@ export default function Hub() {
         api.get("/matches"),
         new Promise((r) => setTimeout(r, 1500)),
       ]);
-      setMatches(res.data);
+      const filtered = res.data.filter(
+        (match) => match.hostId !== user?.id
+      );
+      setMatches(filtered);
     } catch {
       setMatches([]);
     } finally {
