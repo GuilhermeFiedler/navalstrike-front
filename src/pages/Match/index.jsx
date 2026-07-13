@@ -3,12 +3,22 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useMatchSocket from "../../hooks/useMatchSocket";
 import useSoundFX from "../../hooks/useSoundFX";
+import useAnimations from "../../hooks/useAnimations";
 import api from "../../utils/api";
-import Board from "../../components/board/Board";
-import Legend from "../../components/Legend/Legend";
 import OceanShader from "../../components/OceanShader";
 import Placing from "./placing/Placing";
+import Waiting from "./matchstate/Waiting";
+import OnGoing from "./matchstate/OnGoing";
+import Finished from "./matchstate/Finished";
 import styles from "./Match.module.css";
+
+const SHIP_NAMES = {
+  CARRIER: "Porta-aviões",
+  BATTLESHIP: "Encouraçado",
+  CRUISER: "Cruzador",
+  SUBMARINE: "Submarino",
+  DESTROYER: "Destroyer",
+};
 
 export default function Match() {
   const { id } = useParams();
@@ -19,9 +29,9 @@ export default function Match() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState(null);
-  const [explosions, setExplosions] = useState([]);
   const matchIdRef = useRef(id);
   const { playHit, playMiss, playSunk } = useSoundFX();
+  const { explosions, missAnims, addExplosion, addMissAnim, removeExplosion, removeMissAnim } = useAnimations();
 
   useEffect(() => {
     matchIdRef.current = id;
@@ -37,25 +47,21 @@ export default function Match() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  const SHIP_NAMES = {
-    CARRIER: "Porta-aviões",
-    BATTLESHIP: "Encouraçado",
-    CRUISER: "Cruzador",
-    SUBMARINE: "Submarino",
-    DESTROYER: "Destroyer",
-  };
-
   function showNotification(msg) {
     setNotification(msg);
     setTimeout(() => setNotification(null), 3500);
   }
 
+  function refreshMatch() {
+    api.get(`/matches/${matchIdRef.current}`)
+      .then((res) => setMatch(res.data))
+      .catch(() => {});
+  }
+
   const handleEvent = useCallback((event) => {
     switch (event.type) {
       case "_SOCKET_CONNECTED":
-        api.get(`/matches/${matchIdRef.current}`)
-          .then((res) => setMatch(res.data))
-          .catch(() => {});
+        refreshMatch();
         break;
 
       case "PLAYER_JOINED":
@@ -66,9 +72,7 @@ export default function Match() {
         break;
 
       case "GAME_STARTED":
-        api.get(`/matches/${matchIdRef.current}`)
-          .then((res) => setMatch(res.data))
-          .catch(() => {});
+        refreshMatch();
         break;
 
       case "ATTACK_RESULT": {
@@ -85,50 +89,35 @@ export default function Match() {
         }
 
         if (hit) {
-          setExplosions((prev) => [...prev, { x, y, id: `${x}-${y}-${Date.now()}`, isMyAttack }]);
+          addExplosion(x, y, isMyAttack);
+        } else {
+          addMissAnim(x, y, isMyAttack);
         }
 
         if (sunk) {
           const name = SHIP_NAMES[shipType] || "Navio";
-          if (isMyAttack) {
-            showNotification(`${name} inimigo destruído!`);
-          } else {
-            showNotification(`Seu ${name} foi destruído!`);
-          }
+          showNotification(isMyAttack ? `${name} inimigo destruído!` : `Seu ${name} foi destruído!`);
         }
 
         setMatch((prev) => {
           if (!prev) return prev;
           const updated = { ...prev };
+          const boardKey = isMyAttack ? "opponentBoard" : "myBoard";
+          const board = { ...updated[boardKey] };
 
-          if (isMyAttack) {
-            const board = { ...updated.opponentBoard };
-            if (hit) {
-              board.hits = [...(board.hits || []), { x, y }];
-            } else {
-              board.misses = [...(board.misses || []), { x, y }];
-            }
-            updated.opponentBoard = board;
-            updated.currentTurn = hit ? user.id : null;
+          if (hit) {
+            board.hits = [...(board.hits || []), { x, y }];
           } else {
-            const board = { ...updated.myBoard };
-            if (hit) {
-              board.hits = [...(board.hits || []), { x, y }];
-            } else {
-              board.misses = [...(board.misses || []), { x, y }];
-            }
-            updated.myBoard = board;
-            updated.currentTurn = hit ? null : user.id;
+            board.misses = [...(board.misses || []), { x, y }];
           }
+
+          updated[boardKey] = board;
+          updated.currentTurn = (hit === isMyAttack) ? user.id : null;
 
           return updated;
         });
 
-        if (sunk) {
-          api.get(`/matches/${matchIdRef.current}`)
-            .then((res) => setMatch(res.data))
-            .catch(() => {});
-        }
+        if (sunk) refreshMatch();
         break;
       }
 
@@ -149,13 +138,9 @@ export default function Match() {
         }) : prev);
         break;
     }
-  }, [user?.id, playHit, playMiss, playSunk]);
+  }, [user?.id, playHit, playMiss, playSunk, addExplosion, addMissAnim]);
 
   const { connected } = useMatchSocket(id, token, handleEvent);
-
-  function handleExplosionEnd(x, y) {
-    setExplosions((prev) => prev.filter((e) => !(e.x === x && e.y === y)));
-  }
 
   async function handlePlaced() {
     try {
@@ -223,87 +208,14 @@ export default function Match() {
           isMyTurn={isMyTurn}
           onAttack={handleAttack}
           explosions={explosions}
-          onExplosionEnd={handleExplosionEnd}
+          missAnims={missAnims}
+          onExplosionEnd={removeExplosion}
+          onMissAnimEnd={removeMissAnim}
         />
       )}
       {match.status === "FINISHED" && (
         <Finished winnerId={match.winnerId} userId={user.id} forfeitedBy={match.forfeitedBy} />
       )}
-    </div>
-  );
-}
-
-function Waiting({ code }) {
-  return (
-    <div className={styles.waiting}>
-      <h2>Aguardando oponente...</h2>
-      <p>Compartilhe o código da sala:</p>
-      <div className={styles.codeDisplay}>{code || "..."}</div>
-      <p>O jogo começará automaticamente quando alguém entrar.</p>
-    </div>
-  );
-}
-
-function OnGoing({ match, isMyTurn, onAttack, explosions = [], onExplosionEnd }) {
-  const opponentExplosions = explosions.filter((e) => e.isMyAttack);
-  const myBoardExplosions = explosions.filter((e) => !e.isMyAttack);
-
-  return (
-    <div className={styles.ongoing}>
-      <div className={isMyTurn ? styles.turnIndicatorActive : styles.turnIndicator}>
-        {isMyTurn ? "🚀 SEU TURNO" : "⏳ VEZ DO OPONENTE"}
-      </div>
-
-      <div className={styles.boards}>
-        <div className={styles.boardSection}>
-          <h3 className={styles.boardLabel}>Setor Alvo</h3>
-          <div className={styles.glassPanel}>
-            <Board
-              board={match.opponentBoard}
-              showShips={false}
-              onCellClick={isMyTurn ? onAttack : undefined}
-              disabled={!isMyTurn}
-              explosions={opponentExplosions}
-              onExplosionEnd={onExplosionEnd}
-            />
-          </div>
-        </div>
-        <div className={styles.boardSection}>
-          <h3 className={styles.boardLabelOwn}>Sua Frota</h3>
-          <div className={styles.boardWithLegend}>
-            <div className={styles.glassPanel}>
-              <Board
-                board={match.myBoard}
-                showShips={true}
-                disabled={true}
-                explosions={myBoardExplosions}
-                onExplosionEnd={onExplosionEnd}
-              />
-            </div>
-            <Legend />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Finished({ winnerId, userId, forfeitedBy }) {
-  const won = winnerId === userId;
-  const opponentForfeited = forfeitedBy && forfeitedBy !== userId;
-
-  return (
-    <div className={styles.finished}>
-      <h2>{won ? "⚓ VITÓRIA!" : "💀 DERROTA"}</h2>
-      <p>
-        {opponentForfeited
-          ? "O oponente abandonou a partida."
-          : forfeitedBy === userId
-          ? "Você abandonou a partida."
-          : won
-          ? "Todos os navios inimigos foram afundados!"
-          : "Seus navios foram todos afundados."}
-      </p>
     </div>
   );
 }

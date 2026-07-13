@@ -1,12 +1,13 @@
 import styles from "./Board.module.css";
 import ShipOverlay from "../ships/ShipOverlay";
 import Explosion from "./Explosion";
+import MissAnim from "./MissAnim";
 import oceanBg from "../../assets/ocean8bits.png";
 import acertoImg from "../../assets/acerto.png";
 import erroImg from "../../assets/erro.png";
 import navioAfundadoImg from "../../assets/navioafundado.png";
 
-export default function Board({ board, onCellClick, showShips = false, disabled = false, explosions = [], onExplosionEnd }) {
+export default function Board({ board, onCellClick, showShips = false, disabled = false, explosions = [], missAnims = [], onExplosionEnd, onMissAnimEnd }) {
   const size = 10;
 
   function isSunkCoordinate(x, y) {
@@ -63,6 +64,10 @@ export default function Board({ board, onCellClick, showShips = false, disabled 
     return explosions.some((e) => e.x === x && e.y === y);
   }
 
+  function hasMissAnim(x, y) {
+    return missAnims.some((e) => e.x === x && e.y === y);
+  }
+
   function handleClick(x, y) {
     if (disabled || !onCellClick) return;
     const state = getCellState(x, y);
@@ -92,6 +97,7 @@ export default function Board({ board, onCellClick, showShips = false, disabled 
             const state = getCellState(x, y);
             const image = getCellImage(state);
             const exploding = hasExplosion(x, y);
+            const missSplash = hasMissAnim(x, y);
             return (
               <div
                 key={`${x}-${y}`}
@@ -101,7 +107,7 @@ export default function Board({ board, onCellClick, showShips = false, disabled 
                 aria-label={`${colHeaders[x]}${y + 1} - ${state}`}
                 style={{ position: "relative" }}
               >
-                {image && !exploding && (
+                {image && !exploding && !missSplash && (
                   <img
                     src={image}
                     alt={state}
@@ -111,6 +117,9 @@ export default function Board({ board, onCellClick, showShips = false, disabled 
                 )}
                 {exploding && (
                   <Explosion onEnd={() => onExplosionEnd?.(x, y)} />
+                )}
+                {missSplash && (
+                  <MissAnim onEnd={() => onMissAnimEnd?.(x, y)} />
                 )}
               </div>
             );
