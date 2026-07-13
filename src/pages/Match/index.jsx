@@ -4,6 +4,7 @@ import useAuth from "../../hooks/useAuth";
 import useMatchSocket from "../../hooks/useMatchSocket";
 import api from "../../utils/api";
 import Board from "../../components/board/Board";
+import Legend from "../../components/Legend/Legend";
 import OceanShader from "../../components/OceanShader";
 import Placing from "./placing/Placing";
 import styles from "./Match.module.css";
@@ -107,6 +108,12 @@ export default function Match() {
 
           return updated;
         });
+
+        if (sunk) {
+          api.get(`/matches/${matchIdRef.current}`)
+            .then((res) => setMatch(res.data))
+            .catch(() => {});
+        }
         break;
       }
 
@@ -233,8 +240,11 @@ function OnGoing({ match, isMyTurn, onAttack }) {
         </div>
         <div className={styles.boardSection}>
           <h3 className={styles.boardLabelOwn}>Sua Frota</h3>
-          <div className={styles.glassPanel}>
-            <Board board={match.myBoard} showShips={true} disabled={true} />
+          <div className={styles.boardWithLegend}>
+            <div className={styles.glassPanel}>
+              <Board board={match.myBoard} showShips={true} disabled={true} />
+            </div>
+            <Legend />
           </div>
         </div>
       </div>

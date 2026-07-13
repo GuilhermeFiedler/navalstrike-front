@@ -1,7 +1,7 @@
 import styles from "../board/Board.module.css";
 import { SHIP_IMAGES, getShipOrientation, getShipOrigin } from "./shipImages";
 
-const CELL_SIZE = 36;
+const CELL_SIZE = 44;
 
 const SHIP_SCALE = {
   DESTROYER: 1.4,

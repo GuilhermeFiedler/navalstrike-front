@@ -1,0 +1,51 @@
+.legend {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  padding: var(--space-2) var(--space-4);
+  background: rgba(26, 58, 92, 0.9);
+  border: 3px solid #2a5a7c;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.4);
+}
+
+.title {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  text-transform: uppercase;
+  color: #6bc4e8;
+  margin: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  color: #a0d4ef;
+  text-transform: uppercase;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+@media (max-width: 768px) {
+  .legend {
+    gap: 10px;
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .item {
+    font-size: 8px;
+  }
+}

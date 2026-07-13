@@ -1,9 +1,19 @@
 import styles from "./Board.module.css";
 import ShipOverlay from "../ships/ShipOverlay";
 import oceanBg from "../../assets/ocean8bits.png";
+import acertoImg from "../../assets/acerto.png";
+import erroImg from "../../assets/erro.png";
+import navioAfundadoImg from "../../assets/navioafundado.png";
 
 export default function Board({ board, onCellClick, showShips = false, disabled = false }) {
   const size = 10;
+
+  function isSunkCoordinate(x, y) {
+    if (!board?.ships) return false;
+    return board.ships.some((ship) =>
+      ship.coordinates.some((c) => c.x === x && c.y === y)
+    );
+  }
 
   function getCellState(x, y) {
     if (!board) return "empty";
@@ -11,7 +21,10 @@ export default function Board({ board, onCellClick, showShips = false, disabled 
     const isHit = board.hits?.some((h) => h.x === x && h.y === y);
     const isMiss = board.misses?.some((m) => m.x === x && m.y === y);
 
-    if (isHit) return "hit";
+    if (isHit) {
+      if (!showShips && isSunkCoordinate(x, y)) return "sunk";
+      return "hit";
+    }
     if (isMiss) return "miss";
 
     if (showShips && board.ships) {
@@ -19,13 +32,6 @@ export default function Board({ board, onCellClick, showShips = false, disabled 
         ship.coordinates.some((c) => c.x === x && c.y === y)
       );
       if (hasShip) return "ship";
-    }
-
-    if (!showShips && board.ships) {
-      const sunkShip = board.ships.some((ship) =>
-        ship.coordinates.some((c) => c.x === x && c.y === y)
-      );
-      if (sunkShip) return "sunk";
     }
 
     return "empty";
@@ -40,6 +46,15 @@ export default function Board({ board, onCellClick, showShips = false, disabled 
       sunk: `${styles.cell} ${styles.sunk}`,
     };
     return map[state] || styles.cell;
+  }
+
+  function getCellImage(state) {
+    switch (state) {
+      case "hit": return acertoImg;
+      case "miss": return erroImg;
+      case "sunk": return navioAfundadoImg;
+      default: return null;
+    }
   }
 
   function handleClick(x, y) {
@@ -69,6 +84,7 @@ export default function Board({ board, onCellClick, showShips = false, disabled 
           <div className={`${styles.cell} ${styles.header}`}>{y + 1}</div>
           {Array.from({ length: size }, (_, x) => {
             const state = getCellState(x, y);
+            const image = getCellImage(state);
             return (
               <div
                 key={`${x}-${y}`}
@@ -76,7 +92,16 @@ export default function Board({ board, onCellClick, showShips = false, disabled 
                 onClick={() => handleClick(x, y)}
                 role={onCellClick && !disabled ? "button" : undefined}
                 aria-label={`${colHeaders[x]}${y + 1} - ${state}`}
-              />
+              >
+                {image && (
+                  <img
+                    src={image}
+                    alt={state}
+                    className={styles.cellIcon}
+                    draggable={false}
+                  />
+                )}
+              </div>
             );
           })}
         </div>
