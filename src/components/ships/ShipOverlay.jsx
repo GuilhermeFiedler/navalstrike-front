@@ -18,15 +18,17 @@ function getShipStyle(ship) {
   const height = CELL_SIZE * scale;
   const offset = (height - CELL_SIZE) / 2;
 
-  const left = (origin.x + 1) * CELL_SIZE;
-  const top = (origin.y + 1) * CELL_SIZE - offset;
-
   if (orientation === "horizontal") {
+    const left = (origin.x + 1) * CELL_SIZE;
+    const top = (origin.y + 1) * CELL_SIZE - offset;
     return { left: `${left}px`, top: `${top}px`, width: `${width}px`, height: `${height}px` };
   }
 
+  const left = (origin.x + 1) * CELL_SIZE - offset;
+  const top = (origin.y + 1) * CELL_SIZE + offset;
+
   return {
-    left: `${left + offset}px`,
+    left: `${left}px`,
     top: `${top}px`,
     width: `${width}px`,
     height: `${height}px`,
