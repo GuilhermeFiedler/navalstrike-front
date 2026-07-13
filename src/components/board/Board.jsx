@@ -1,4 +1,6 @@
 import styles from "./Board.module.css";
+import ShipOverlay from "../ships/ShipOverlay";
+import oceanBg from "../../assets/ocean8bits.png";
 
 export default function Board({ board, onCellClick, showShips = false, disabled = false }) {
   const size = 10;
@@ -32,7 +34,7 @@ export default function Board({ board, onCellClick, showShips = false, disabled 
   function getCellClass(state) {
     const map = {
       empty: styles.cell,
-      ship: `${styles.cell} ${styles.ship}`,
+      ship: `${styles.cell} ${styles.shipCell}`,
       hit: `${styles.cell} ${styles.hit}`,
       miss: `${styles.cell} ${styles.miss}`,
       sunk: `${styles.cell} ${styles.sunk}`,
@@ -48,9 +50,14 @@ export default function Board({ board, onCellClick, showShips = false, disabled 
   }
 
   const colHeaders = "ABCDEFGHIJ".split("");
+  const hasShipsToShow = board?.ships?.length > 0;
 
   return (
     <div className={styles.board}>
+      <div
+        className={styles.oceanBg}
+        style={{ backgroundImage: `url(${oceanBg})` }}
+      />
       <div className={styles.row}>
         <div className={`${styles.cell} ${styles.header}`}></div>
         {colHeaders.map((letter, i) => (
@@ -74,6 +81,9 @@ export default function Board({ board, onCellClick, showShips = false, disabled 
           })}
         </div>
       ))}
+      {hasShipsToShow && (
+        <ShipOverlay ships={board.ships} sunk={!showShips} />
+      )}
     </div>
   );
 }

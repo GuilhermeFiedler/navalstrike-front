@@ -1,4 +1,5 @@
 import styles from "../../../components/board/Board.module.css";
+import oceanBg from "../../../assets/ocean8bits.png";
 
 const COL_HEADERS = "ABCDEFGHIJ".split("");
 const SIZE = 10;
@@ -18,6 +19,10 @@ export default function PlacingBoard({ placedShips, preview, onCellClick, onCell
 
   return (
     <div className={styles.board}>
+      <div
+        className={styles.oceanBg}
+        style={{ backgroundImage: `url(${oceanBg})` }}
+      />
       <div className={styles.row}>
         <div className={`${styles.cell} ${styles.header}`}></div>
         {COL_HEADERS.map((letter, i) => (
