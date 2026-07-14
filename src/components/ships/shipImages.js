@@ -10,6 +10,12 @@ import animalCruiser from "../../assets/skins/animalia/animalcruiser.png";
 import animalSubmarine from "../../assets/skins/animalia/animalsubmarine.png";
 import animalDestroyer from "../../assets/skins/animalia/animaldestroyer.png";
 
+import galaxyCarrier from "../../assets/skins/galaxy/galaxycarrier.png";
+import galaxyBattleship from "../../assets/skins/galaxy/galaxybattleship.png";
+import galaxyCruiser from "../../assets/skins/galaxy/galaxycruiser.png";
+import galaxySubmarine from "../../assets/skins/galaxy/galaxysubmarine.png";
+import galaxyDestroyer from "../../assets/skins/galaxy/galaxydestroyer.png";
+
 export const DEFAULT_IMAGES = {
   CARRIER: carrier,
   BATTLESHIP: battleship,
@@ -25,6 +31,13 @@ export const SKIN_REGISTRY = {
     CRUISER: animalCruiser,
     SUBMARINE: animalSubmarine,
     DESTROYER: animalDestroyer,
+  },
+  galaxy: {
+    CARRIER: galaxyCarrier,
+    BATTLESHIP: galaxyBattleship,
+    CRUISER: galaxyCruiser,
+    SUBMARINE: galaxySubmarine,
+    DESTROYER: galaxyDestroyer,
   },
 };
 
