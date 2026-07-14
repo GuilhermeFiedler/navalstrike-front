@@ -215,6 +215,8 @@ export default function Match() {
           match={match}
           isMyTurn={isMyTurn}
           onAttack={handleAttack}
+          mySkinSlug={match.mySkinSlug || null}
+          opponentSkinSlug={match.opponentSkinSlug || null}
           explosions={explosions}
           missAnims={missAnims}
           onExplosionEnd={removeExplosion}

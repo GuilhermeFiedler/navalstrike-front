@@ -4,13 +4,36 @@ import cruiser from "../../assets/cruiser.png";
 import submarine from "../../assets/submarine.png";
 import destroyer from "../../assets/destroyer.png";
 
-export const SHIP_IMAGES = {
+import animalCarrier from "../../assets/skins/animalia/animalcarrier.png";
+import animalBattleship from "../../assets/skins/animalia/animalbattleship.png";
+import animalCruiser from "../../assets/skins/animalia/animalcruiser.png";
+import animalSubmarine from "../../assets/skins/animalia/animalsubmarine.png";
+import animalDestroyer from "../../assets/skins/animalia/animaldestroyer.png";
+
+export const DEFAULT_IMAGES = {
   CARRIER: carrier,
   BATTLESHIP: battleship,
   CRUISER: cruiser,
   SUBMARINE: submarine,
   DESTROYER: destroyer,
 };
+
+export const SKIN_REGISTRY = {
+  animalia: {
+    CARRIER: animalCarrier,
+    BATTLESHIP: animalBattleship,
+    CRUISER: animalCruiser,
+    SUBMARINE: animalSubmarine,
+    DESTROYER: animalDestroyer,
+  },
+};
+
+export function getShipImage(skinSlug, shipType) {
+  if (!skinSlug) return DEFAULT_IMAGES[shipType];
+  return SKIN_REGISTRY[skinSlug]?.[shipType] || DEFAULT_IMAGES[shipType];
+}
+
+export const SHIP_IMAGES = DEFAULT_IMAGES;
 
 export function getShipOrientation(coordinates) {
   if (!coordinates || coordinates.length < 2) return "horizontal";

@@ -7,7 +7,7 @@ import acertoImg from "../../assets/acerto.png";
 import erroImg from "../../assets/erro.png";
 import navioAfundadoImg from "../../assets/navioafundado.png";
 
-export default function Board({ board, onCellClick, showShips = false, disabled = false, explosions = [], missAnims = [], onExplosionEnd, onMissAnimEnd }) {
+export default function Board({ board, onCellClick, showShips = false, disabled = false, skinSlug = null, explosions = [], missAnims = [], onExplosionEnd, onMissAnimEnd }) {
   const size = 10;
 
   function isSunkCoordinate(x, y) {
@@ -127,7 +127,7 @@ export default function Board({ board, onCellClick, showShips = false, disabled 
         </div>
       ))}
       {hasShipsToShow && (
-        <ShipOverlay ships={board.ships} sunk={!showShips} />
+        <ShipOverlay ships={board.ships} sunk={!showShips} skinSlug={skinSlug} />
       )}
     </div>
   );

@@ -1,5 +1,5 @@
 import styles from "../board/Board.module.css";
-import { SHIP_IMAGES, getShipOrientation, getShipOrigin } from "./shipImages";
+import { getShipImage, getShipOrientation, getShipOrigin } from "./shipImages";
 
 const CELL_SIZE = 44;
 
@@ -37,11 +37,11 @@ function getShipStyle(ship) {
   };
 }
 
-export default function ShipOverlay({ ships, sunk = false }) {
+export default function ShipOverlay({ ships, sunk = false, skinSlug = null }) {
   if (!ships || ships.length === 0) return null;
 
   return ships.map((ship) => {
-    const image = SHIP_IMAGES[ship.shipType];
+    const image = getShipImage(skinSlug, ship.shipType);
     if (!image) return null;
 
     return (

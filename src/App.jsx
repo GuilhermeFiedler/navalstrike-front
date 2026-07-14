@@ -3,6 +3,7 @@ import ProtectedRoute from './utils/ProtectedRoute'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Hub from './pages/Hub'
+import Hangar from './pages/Hangar'
 import Match from './pages/Match'
 import Logbook from './pages/Logbook'
 
@@ -14,6 +15,11 @@ function App() {
       <Route path="/hub" element={
         <ProtectedRoute>
           <Hub />
+        </ProtectedRoute>
+      } />
+      <Route path="/hangar" element={
+        <ProtectedRoute>
+          <Hangar />
         </ProtectedRoute>
       } />
       <Route path="/logbook" element={
