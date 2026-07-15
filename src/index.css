@@ -76,9 +76,18 @@ body {
   color: var(--on-surface);
   background-color: var(--surface);
   background-image:
-    linear-gradient(180deg, rgba(231, 238, 243, 0) 0%, rgba(202, 218, 230, 0.15) 100%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Ctext x='20' y='30' font-size='14' fill='%23184e77' opacity='0.2' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='120' y='25' font-size='12' fill='%23184e77' opacity='0.15' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='170' y='60' font-size='10' fill='%23184e77' opacity='0.18' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='60' y='80' font-size='14' fill='%23184e77' opacity='0.15' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='150' y='110' font-size='12' fill='%23184e77' opacity='0.2' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='30' y='130' font-size='10' fill='%23184e77' opacity='0.16' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='100' y='150' font-size='14' fill='%23184e77' opacity='0.2' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='10' y='175' font-size='12' fill='%23184e77' opacity='0.15' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='160' y='180' font-size='10' fill='%23184e77' opacity='0.18' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='80' y='195' font-size='12' fill='%23184e77' opacity='0.16' font-family='monospace'%3E≈%3C/text%3E%3C/svg%3E");
+    linear-gradient(180deg,
+      #1a1a2e 0%,
+      #16213e 15%,
+      #0f3460 35%,
+      #184e77 55%,
+      #1a6b8a 70%,
+      #2d8f9e 85%,
+      #48b5a3 100%
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Ctext x='20' y='30' font-size='14' fill='%23ffffff' opacity='0.06' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='120' y='25' font-size='12' fill='%23ffffff' opacity='0.04' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='170' y='60' font-size='10' fill='%23ffffff' opacity='0.05' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='60' y='80' font-size='14' fill='%23ffffff' opacity='0.04' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='150' y='110' font-size='12' fill='%23ffffff' opacity='0.06' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='30' y='130' font-size='10' fill='%23ffffff' opacity='0.05' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='100' y='150' font-size='14' fill='%23ffffff' opacity='0.06' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='10' y='175' font-size='12' fill='%23ffffff' opacity='0.04' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='160' y='180' font-size='10' fill='%23ffffff' opacity='0.05' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='80' y='195' font-size='12' fill='%23ffffff' opacity='0.04' font-family='monospace'%3E≈%3C/text%3E%3C/svg%3E");
   background-repeat: repeat;
+  background-attachment: fixed;
   min-height: 100vh;
 }
 
@@ -86,6 +95,16 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.04) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 9999;
 }
 
 h1, h2, h3 {
