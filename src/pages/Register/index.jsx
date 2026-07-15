@@ -3,6 +3,7 @@ import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
 import OceanShader from "../../components/OceanShader";
 import styles from "./Register.module.css";
+import { GiPirateFlag, GiMailbox, GiKeyLock, GiLockedChest } from "react-icons/gi";
 
 export default function Register() {
   const { register } = useAuth();
@@ -60,7 +61,7 @@ export default function Register() {
           <div className={styles.inputGroup}>
             <label htmlFor="name">Nome de Usuário</label>
             <div className={styles.inputWrapper}>
-              <span className={styles.inputIcon}>👤</span>
+              <span className={styles.inputIcon}><GiPirateFlag /></span>
               <input
                 id="name"
                 type="text"
@@ -77,7 +78,7 @@ export default function Register() {
           <div className={styles.inputGroup}>
             <label htmlFor="email">Email</label>
             <div className={styles.inputWrapper}>
-              <span className={styles.inputIcon}>✉️</span>
+              <span className={styles.inputIcon}><GiMailbox /></span>
               <input
                 id="email"
                 type="email"
@@ -95,7 +96,7 @@ export default function Register() {
             <div className={styles.inputGroup}>
               <label htmlFor="password">Senha de segurança</label>
               <div className={styles.inputWrapper}>
-                <span className={styles.inputIcon}>🔑</span>
+                <span className={styles.inputIcon}><GiKeyLock /></span>
                 <input
                   id="password"
                   type="password"
@@ -111,7 +112,7 @@ export default function Register() {
             <div className={styles.inputGroup}>
               <label htmlFor="passwordConfirmation">Confirmar Senha</label>
               <div className={styles.inputWrapper}>
-                <span className={styles.inputIcon}>🔒</span>
+                <span className={styles.inputIcon}><GiKeyLock /></span>
                 <input
                   id="passwordConfirmation"
                   type="password"

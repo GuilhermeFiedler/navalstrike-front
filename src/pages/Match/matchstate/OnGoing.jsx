@@ -1,6 +1,7 @@
 import Board from "../../../components/board/Board";
 import Legend from "../../../components/Legend/Legend";
 import styles from "../Match.module.css";
+import { FaRocket, FaHourglass } from "react-icons/fa";
 
 export default function OnGoing({ match, isMyTurn, onAttack, mySkinSlug = null, opponentSkinSlug = null, explosions = [], missAnims = [], onExplosionEnd, onMissAnimEnd }) {
   const opponentExplosions = explosions.filter((e) => e.isMyAttack);
@@ -11,7 +12,7 @@ export default function OnGoing({ match, isMyTurn, onAttack, mySkinSlug = null, 
   return (
     <div className={styles.ongoing}>
       <div className={isMyTurn ? styles.turnIndicatorActive : styles.turnIndicator}>
-        {isMyTurn ? "🚀 SEU TURNO" : "⏳ VEZ DO OPONENTE"}
+        {isMyTurn ? <><FaRocket /> SEU TURNO</> : <><FaHourglass /> VEZ DO OPONENTE</>}
       </div>
 
       <div className={styles.boards}>

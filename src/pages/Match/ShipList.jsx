@@ -1,5 +1,6 @@
 import { SHIPS } from "./shipConfig";
 import styles from "./Match.module.css";
+import { FaCheck } from "react-icons/fa";
 
 export default function ShipList({ placedCount, currentIndex }) {
   return (
@@ -17,7 +18,7 @@ export default function ShipList({ placedCount, currentIndex }) {
                 : ""
             }
           >
-            {ship.label} {i < placedCount ? "✓" : ""}
+            {ship.label} {i < placedCount ? <FaCheck /> : ""}
           </li>
         ))}
       </ul>

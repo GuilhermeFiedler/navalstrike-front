@@ -8,6 +8,8 @@ import Button from "../../components/button/Button";
 import MatchCard from "./MatchCard";
 import JoinByCode from "./JoinByCode";
 import styles from "./Hub.module.css";
+import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
+import { GiAnchor } from "react-icons/gi";
 
 export default function Hub() {
   const { user } = useAuth();
@@ -127,7 +129,7 @@ export default function Hub() {
 
           {!loading && matches.length === 0 && (
             <div className={styles.emptyState}>
-              <span>⚓</span>
+              <span><GiAnchor /></span>
               <span className={styles.emptyText}>
                 Nenhuma partida disponível no momento.
               </span>
@@ -141,7 +143,7 @@ export default function Hub() {
           aria-label={playing ? "Pausar música" : "Tocar música"}
           style={{ position: 'fixed', bottom: 'var(--space-5)', right: 'var(--space-5)', zIndex: 50 }}
         >
-          {playing ? "🔊" : "🔇"}
+          {playing ? <FaVolumeUp /> : <FaVolumeMute />}
         </Button>
       </main>
     </div>

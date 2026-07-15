@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "./LoadingScreen.module.css";
+import { GiAnchor } from "react-icons/gi";
 
 const STATUS_MESSAGES = [
   "DECODIFICANDO FREQUÊNCIAS INIMIGAS...",
@@ -40,7 +41,7 @@ export default function LoadingScreen({ progress = 0 }) {
 
       <header className={styles.header}>
         <div className={styles.headerLeft}>
-          <span className={styles.anchor}>⚓</span>
+          <span className={styles.anchor}><GiAnchor /></span>
           <h1 className={styles.title}>NAVALSTRIKE</h1>
         </div>
         <div className={styles.headerRight}>

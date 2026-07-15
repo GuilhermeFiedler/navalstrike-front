@@ -28,12 +28,15 @@
 .logo {
   width: 80px;
   height: 80px;
-  background-color: var(--surface-container-high);
-  border: var(--border-lg) solid var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 32px;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .title {

@@ -1,5 +1,6 @@
 import styles from "./Hub.module.css";
 import Button from "../../components/button/Button";
+import { GiAnchor, GiWaves } from "react-icons/gi";
 
 export default function MatchCard({ match, userId, onConnect, onJoin }) {
   const playerCount = match.playerCount ?? match.players?.length ?? 1;
@@ -21,7 +22,7 @@ export default function MatchCard({ match, userId, onConnect, onJoin }) {
           isFull ? styles.matchIconActive : styles.matchIconWaiting
         }`}
       >
-        {isFull ? "🌊" : "⚓"}
+        {isFull ? <GiWaves /> : <GiAnchor />}
       </div>
 
       <div className={styles.matchInfo}>

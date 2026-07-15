@@ -2,6 +2,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import LogoutButton from "../logout/LogoutButton";
 import styles from "./Sidebar.module.css";
+import { GiAnchor, GiPirateFlag, GiBookmark } from "react-icons/gi";
+import { FaGamepad, FaUser } from "react-icons/fa";
 
 export default function Sidebar() {
   const { user } = useAuth();
@@ -9,9 +11,9 @@ export default function Sidebar() {
   const location = useLocation();
 
   const menuItems = [
-    { id: "comando", label: "COMANDO", icon: "🎮", path: "/hub" },
-    { id: "hangar", label: "HANGAR", icon: "⚓", path: "/hangar" },
-    { id: "logbook", label: "LOGBOOK", icon: "📋", path: "/logbook" },
+    { id: "comando", label: "COMANDO", icon: <FaGamepad />, path: "/hub" },
+    { id: "hangar", label: "HANGAR", icon: <GiAnchor />, path: "/hangar" },
+    { id: "logbook", label: "LOGBOOK", icon: <GiBookmark />, path: "/logbook" },
   ];
 
   function isActive(path) {
@@ -21,7 +23,7 @@ export default function Sidebar() {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.userSection}>
-        <span className={styles.userIcon}>👤</span>
+        <span className={styles.userIcon}><FaUser /></span>
         <span className={styles.userName}>{user?.name || "User"}</span>
       </div>
 

@@ -1,4 +1,5 @@
 import styles from "../Match.module.css";
+import { GiAnchor, GiSkullCrossedBones } from "react-icons/gi";
 
 export default function Finished({ winnerId, userId, forfeitedBy }) {
   const won = winnerId === userId;
@@ -6,7 +7,7 @@ export default function Finished({ winnerId, userId, forfeitedBy }) {
 
   return (
     <div className={styles.finished}>
-      <h2>{won ? "⚓ VITÓRIA!" : "💀 DERROTA"}</h2>
+      <h2>{won ? <><GiAnchor /> VITÓRIA!</> : <><GiSkullCrossedBones /> DERROTA</>}</h2>
       <p>
         {opponentForfeited
           ? "O oponente abandonou a partida."

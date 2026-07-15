@@ -14,16 +14,16 @@
   --on-tertiary: #ffffff;
   --on-tertiary-container: #d4a017;
 
-  --surface: #fff8f0;
-  --surface-dim: #e5d9bd;
+  --surface: #E7EEF3;
+  --surface-dim: #c9d6df;
   --surface-container-lowest: #ffffff;
-  --surface-container-low: #fff3d5;
-  --surface-container: #f9edd0;
-  --surface-container-high: #f3e7ca;
-  --surface-container-highest: #eee2c5;
+  --surface-container-low: #F6F1E4;
+  --surface-container: #f0ead9;
+  --surface-container-high: #e8e2d1;
+  --surface-container-highest: #e0dac9;
   --on-surface: #211b09;
   --on-surface-variant: #514349;
-  --background: #fff8f0;
+  --background: #E7EEF3;
   --on-background: #211b09;
 
   --outline: #83737a;
@@ -75,6 +75,10 @@ body {
   line-height: 20px;
   color: var(--on-surface);
   background-color: var(--surface);
+  background-image:
+    linear-gradient(180deg, rgba(231, 238, 243, 0) 0%, rgba(202, 218, 230, 0.15) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Ctext x='20' y='30' font-size='14' fill='%23184e77' opacity='0.2' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='120' y='25' font-size='12' fill='%23184e77' opacity='0.15' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='170' y='60' font-size='10' fill='%23184e77' opacity='0.18' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='60' y='80' font-size='14' fill='%23184e77' opacity='0.15' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='150' y='110' font-size='12' fill='%23184e77' opacity='0.2' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='30' y='130' font-size='10' fill='%23184e77' opacity='0.16' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='100' y='150' font-size='14' fill='%23184e77' opacity='0.2' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='10' y='175' font-size='12' fill='%23184e77' opacity='0.15' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='160' y='180' font-size='10' fill='%23184e77' opacity='0.18' font-family='monospace'%3E≈%3C/text%3E%3Ctext x='80' y='195' font-size='12' fill='%23184e77' opacity='0.16' font-family='monospace'%3E≈%3C/text%3E%3C/svg%3E");
+  background-repeat: repeat;
   min-height: 100vh;
 }
 

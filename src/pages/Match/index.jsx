@@ -11,6 +11,7 @@ import Waiting from "./matchstate/Waiting";
 import OnGoing from "./matchstate/OnGoing";
 import Finished from "./matchstate/Finished";
 import styles from "./Match.module.css";
+import { FaTimes, FaFlag, FaCircle, FaRegCircle } from "react-icons/fa";
 
 const SHIP_NAMES = {
   CARRIER: "Porta-aviões",
@@ -179,8 +180,8 @@ export default function Match() {
 
   function getLeaveLabel() {
     if (!match) return "← VOLTAR";
-    if (match.status === "PLACING") return "✕ CANCELAR";
-    if (match.status === "ON_GOING") return "⚐ DESISTIR";
+    if (match.status === "PLACING") return <><FaTimes /> CANCELAR</>;
+    if (match.status === "ON_GOING") return <><FaFlag /> DESISTIR</>;
     return "← VOLTAR";
   }
 
@@ -199,7 +200,7 @@ export default function Match() {
           {getLeaveLabel()}
         </button>
         <span className={styles.headerStatus}>
-          {connected ? "● Conectado" : "○ Desconectado"}
+          {connected ? <><FaCircle /> Conectado</> : <><FaRegCircle /> Desconectado</>}
         </span>
       </header>
 

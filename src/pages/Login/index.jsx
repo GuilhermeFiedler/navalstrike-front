@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import OceanShader from "../../components/OceanShader";
+import { GiLockedChest, GiKeyLock, GiPirateFlag, GiMailbox } from "react-icons/gi";
+import navalstrikeIcon from "../../assets/navalstrikeIcon.png";
 
 export default function Login() {
   const { login } = useAuth();
@@ -33,14 +35,14 @@ export default function Login() {
     <div className={styles.page}>
       <OceanShader className={styles.shaderBg} />
       <header className={styles.header}>
-        <div className={styles.logo}>⚓</div>
+        <div className={styles.logo}><img src={navalstrikeIcon} alt="Naval Strike" /></div>
         <h1 className={styles.title}>Naval Strike</h1>
         <span className={styles.subtitle}>Acesso ao sistema de combate</span>
       </header>
 
       <div className={styles.loginCard}>
         <div className={styles.cardHeader}>
-          <span className={styles.lockIcon}>🔒</span>
+          <span className={styles.lockIcon}><GiLockedChest /></span>
           <h2>Login</h2>
         </div>
 
@@ -57,7 +59,7 @@ export default function Login() {
                 required
                 autoComplete="email"
               />
-              <span className={styles.inputIcon}>👤</span>
+              <span className={styles.inputIcon}><GiMailbox /></span>
             </div>
           </div>
 
@@ -73,7 +75,7 @@ export default function Login() {
                 required
                 autoComplete="current-password"
               />
-              <span className={styles.inputIcon}>🔑</span>
+              <span className={styles.inputIcon}><GiKeyLock /></span>
             </div>
           </div>
 
@@ -86,7 +88,7 @@ export default function Login() {
 
         <footer className={styles.footer}>
           <p>
-            👤 Não tem uma conta?{" "}
+            <GiPirateFlag /> Não tem uma conta?{" "}
             <a href="/register" onClick={(e) => { e.preventDefault(); navigate("/register"); }}>
               Cadastre-se
             </a>

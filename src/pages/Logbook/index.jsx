@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import api from "../../utils/api";
 import styles from "./Logbook.module.css";
+import { FaClipboardList } from "react-icons/fa";
+import { GiAnchor, GiSkullCrossedBones } from "react-icons/gi";
 
 const PAGE_SIZE = 5;
 
@@ -96,7 +98,7 @@ export default function Logbook() {
                     : styles.matchIconDefeat
                 }`}
               >
-                {match.result === "VICTORY" ? "⚓" : "💀"}
+                {match.result === "VICTORY" ? <GiAnchor /> : <GiSkullCrossedBones />}
               </div>
 
               <div className={styles.matchInfo}>
@@ -136,7 +138,7 @@ export default function Logbook() {
 
           {!loading && history.length === 0 && !error && (
             <div className={styles.emptyState}>
-              <span>📋</span>
+              <span><FaClipboardList /></span>
               <span className={styles.emptyText}>
                 Nenhuma batalha registrada ainda.
               </span>
