@@ -10,6 +10,7 @@ import Placing from "./placing/Placing";
 import Waiting from "./matchstate/Waiting";
 import OnGoing from "./matchstate/OnGoing";
 import Finished from "./matchstate/Finished";
+import DisconnectOverlay from "./DisconnectOverlay";
 import styles from "./Match.module.css";
 import { FaTimes, FaFlag, FaCircle, FaRegCircle } from "react-icons/fa";
 
@@ -30,6 +31,8 @@ export default function Match() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState(null);
+  const [opponentDisconnected, setOpponentDisconnected] = useState(false);
+  const [disconnectSeconds, setDisconnectSeconds] = useState(0);
   const matchIdRef = useRef(id);
   const matchStatusRef = useRef(null);
   const { playHit, playMiss, playSunk } = useSoundFX();
@@ -152,12 +155,26 @@ export default function Match() {
         break;
 
       case "PLAYER_FORFEIT":
+        setOpponentDisconnected(false);
         setMatch((prev) => prev ? ({
           ...prev,
           status: "FINISHED",
           winnerId: event.payload.winnerId,
           forfeitedBy: event.payload.quitterId,
         }) : prev);
+        break;
+
+      case "PLAYER_DISCONNECTED":
+        if (event.playerId !== user.id) {
+          setOpponentDisconnected(true);
+          setDisconnectSeconds(event.payload.timeoutSeconds);
+        }
+        break;
+
+      case "PLAYER_RECONNECTED":
+        if (event.playerId !== user.id) {
+          setOpponentDisconnected(false);
+        }
         break;
     }
   }, [user?.id, playHit, playMiss, playSunk, addExplosion, addMissAnim]);
@@ -248,6 +265,8 @@ export default function Match() {
       {match.status === "FINISHED" && (
         <Finished winnerId={match.winnerId} userId={user.id} forfeitedBy={match.forfeitedBy} />
       )}
+
+      {opponentDisconnected && <DisconnectOverlay seconds={disconnectSeconds} />}
     </div>
   );
 }
