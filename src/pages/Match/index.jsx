@@ -31,12 +31,25 @@ export default function Match() {
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState(null);
   const matchIdRef = useRef(id);
+  const matchStatusRef = useRef(null);
   const { playHit, playMiss, playSunk } = useSoundFX();
   const { explosions, missAnims, addExplosion, addMissAnim, removeExplosion, removeMissAnim } = useAnimations();
 
   useEffect(() => {
     matchIdRef.current = id;
   }, [id]);
+
+  useEffect(() => {
+    matchStatusRef.current = match?.status || null;
+  }, [match?.status]);
+
+  useEffect(() => {
+    return () => {
+      if (matchStatusRef.current === "WAITING") {
+        api.post(`/matches/${matchIdRef.current}/forfeit`).catch(() => {});
+      }
+    };
+  }, []);
 
   useEffect(() => {
     setMatch(null);
@@ -160,13 +173,20 @@ export default function Match() {
 
   async function handleLeave() {
     const inProgress = match && (match.status === "PLACING" || match.status === "ON_GOING");
+    const isWaiting = match && match.status === "WAITING";
+
     if (inProgress) {
       const confirmed = window.confirm("Tem certeza? Você vai abandonar a partida e o oponente vencerá.");
       if (!confirmed) return;
       try {
         await api.post(`/matches/${id}/forfeit`);
       } catch {}
+    } else if (isWaiting) {
+      try {
+        await api.post(`/matches/${id}/forfeit`);
+      } catch {}
     }
+
     navigate("/hub");
   }
 
@@ -180,6 +200,7 @@ export default function Match() {
 
   function getLeaveLabel() {
     if (!match) return "← VOLTAR";
+    if (match.status === "WAITING") return <><FaTimes /> SAIR</>;
     if (match.status === "PLACING") return <><FaTimes /> CANCELAR</>;
     if (match.status === "ON_GOING") return <><FaFlag /> DESISTIR</>;
     return "← VOLTAR";

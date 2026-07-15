@@ -1,150 +1,51 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
-import useLobbyMusic from "../../hooks/useLobbyMusic";
-import api from "../../utils/api";
 import Sidebar from "../../components/sidebar/Sidebar";
-import Button from "../../components/button/Button";
-import MatchCard from "./MatchCard";
+import useMatches from "../../hooks/useMatches";
+import HubHeader from "./HubHeader";
+import MatchList from "./MatchList";
 import JoinByCode from "./JoinByCode";
+import MusicToggle from "./MusicToggle";
 import styles from "./Hub.module.css";
-import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
-import { GiAnchor } from "react-icons/gi";
 
 export default function Hub() {
-  const { user } = useAuth();
-  const { playing, toggle } = useLobbyMusic();
-  const [matches, setMatches] = useState([]);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [creating, setCreating] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    fetchMatches();
-  }, []);
-
-  async function fetchMatches() {
-    setLoading(true);
-    try {
-      const [res] = await Promise.all([
-        api.get("/matches"),
-        new Promise((r) => setTimeout(r, 1500)),
-      ]);
-      const filtered = res.data.filter(
-        (match) => match.hostId !== user?.id
-      );
-      setMatches(filtered);
-    } catch {
-      setMatches([]);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function handleCreate() {
-    setCreating(true);
-    setError("");
-    try {
-      const res = await api.post("/matches");
-      const { matchId, code } = res.data;
-      navigate(`/match/${matchId}`, { state: { code } });
-    } catch (err) {
-      setError(err.response?.data?.message || "Erro ao criar partida");
-    } finally {
-      setCreating(false);
-    }
-  }
-
-  async function handleJoinByCode(code) {
-    setError("");
-    try {
-      const res = await api.post("/matches/join-by-code", { code });
-      navigate(`/match/${res.data.matchId}`);
-    } catch (err) {
-      setError(err.response?.data?.message || "Código inválido ou partida indisponível");
-    }
-  }
-
-  async function handleJoin(matchId) {
-    setError("");
-    try {
-      await api.post(`/matches/${matchId}/join`);
-      navigate(`/match/${matchId}`);
-    } catch (err) {
-      setError(err.response?.data?.message || "Não foi possível entrar na partida");
-    }
-  }
-
-  function handleConnect(matchId) {
-    navigate(`/match/${matchId}`);
-  }
+  const {
+    matches,
+    error,
+    setError,
+    loading,
+    creating,
+    userId,
+    fetchMatches,
+    handleCreate,
+    handleJoinByCode,
+    handleJoin,
+    handleConnect,
+  } = useMatches();
 
   return (
     <div className={styles.layout}>
       <Sidebar />
 
       <main className={styles.content}>
-        <header className={styles.header}>
-          <h1 className={styles.title}>Listagem de Partidas</h1>
-          <div className={styles.headerActions}>
-            <Button
-              variant="primary"
-              onClick={fetchMatches}
-              disabled={loading}
-            >
-              Atualizar Lista
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={handleCreate}
-              disabled={creating}
-            >
-              {creating ? "Criando..." : "Nova Partida"}
-            </Button>
-          </div>
-        </header>
+        <HubHeader
+          onRefresh={fetchMatches}
+          onCreate={handleCreate}
+          loading={loading}
+          creating={creating}
+        />
 
         {error && <p className={styles.error}>{error}</p>}
 
         <JoinByCode onJoin={handleJoinByCode} onError={setError} />
 
-        <div className={styles.matchList}>
-          {matches.map((match) => (
-            <MatchCard
-              key={match.id}
-              match={match}
-              userId={user?.id}
-              onConnect={handleConnect}
-              onJoin={handleJoin}
-            />
-          ))}
+        <MatchList
+          matches={matches}
+          loading={loading}
+          userId={userId}
+          onConnect={handleConnect}
+          onJoin={handleJoin}
+        />
 
-          {loading && (
-            <div className={styles.loadingCard}>
-              <span className={styles.loadingIcon}>⟳</span>
-              <span className={styles.loadingText}>Buscando novos setores...</span>
-            </div>
-          )}
-
-          {!loading && matches.length === 0 && (
-            <div className={styles.emptyState}>
-              <span><GiAnchor /></span>
-              <span className={styles.emptyText}>
-                Nenhuma partida disponível no momento.
-              </span>
-            </div>
-          )}
-        </div>
-
-        <Button
-          variant="icon"
-          onClick={toggle}
-          aria-label={playing ? "Pausar música" : "Tocar música"}
-          style={{ position: 'fixed', bottom: 'var(--space-5)', right: 'var(--space-5)', zIndex: 50 }}
-        >
-          {playing ? <FaVolumeUp /> : <FaVolumeMute />}
-        </Button>
+        <MusicToggle />
       </main>
     </div>
   );
