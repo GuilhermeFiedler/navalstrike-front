@@ -1,5 +1,5 @@
-import { DEFAULT_IMAGES } from "../../components/ships/shipImages";
-import styles from "./Hangar.module.css";
+import { getShipImage } from "../../components/ships/shipImages";
+import styles from "./Dock.module.css";
 
 const SHIP_TYPES = ["CARRIER", "BATTLESHIP", "CRUISER", "SUBMARINE", "DESTROYER"];
 
@@ -11,21 +11,23 @@ const SHIP_LABELS = {
   DESTROYER: "Destroyer",
 };
 
-export default function DefaultSkinCard({ isEquipped, onSelect }) {
+export default function SkinCard({ pack, isEquipped, onEquip, onUnequip }) {
+  const slug = pack.slug;
+
   return (
     <div className={`${styles.skinCard} ${isEquipped ? styles.skinCardEquipped : ""}`}>
       <div className={styles.skinCardHeader}>
-        <h3 className={styles.skinName}>Padrão</h3>
+        <h3 className={styles.skinName}>{pack.name}</h3>
         {isEquipped && <span className={styles.equippedBadge}>EQUIPADA</span>}
       </div>
 
-      <p className={styles.skinDescription}>Visual padrão da frota naval.</p>
+      <p className={styles.skinDescription}>{pack.description}</p>
 
       <div className={styles.shipPreview}>
         {SHIP_TYPES.map((type) => (
           <div key={type} className={styles.shipPreviewItem}>
             <img
-              src={DEFAULT_IMAGES[type]}
+              src={getShipImage(slug, type)}
               alt={SHIP_LABELS[type]}
               className={styles.shipPreviewImg}
               draggable={false}
@@ -37,10 +39,12 @@ export default function DefaultSkinCard({ isEquipped, onSelect }) {
 
       <div className={styles.skinCardActions}>
         {isEquipped ? (
-          <span className={styles.equippedText}>Visual ativo</span>
+          <button className={styles.btnUnequip} onClick={onUnequip}>
+            Desequipar
+          </button>
         ) : (
-          <button className={styles.btnEquip} onClick={onSelect}>
-            Usar padrão
+          <button className={styles.btnEquip} onClick={() => onEquip(pack.id)}>
+            Equipar
           </button>
         )}
       </div>

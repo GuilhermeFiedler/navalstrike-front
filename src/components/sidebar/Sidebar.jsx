@@ -12,7 +12,7 @@ export default function Sidebar() {
 
   const menuItems = [
     { id: "comando", label: "COMANDO", icon: <FaGamepad />, path: "/hub" },
-    { id: "hangar", label: "HANGAR", icon: <GiAnchor />, path: "/hangar" },
+    { id: "doca", label: "DOCA", icon: <GiAnchor />, path: "/dock" },
     { id: "logbook", label: "LOGBOOK", icon: <GiBookmark />, path: "/logbook" },
   ];
 

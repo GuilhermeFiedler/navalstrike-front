@@ -2,9 +2,9 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import useSkins from "../../hooks/useSkins";
 import SkinCard from "./SkinCard";
 import DefaultSkinCard from "./DefaultSkinCard";
-import styles from "./Hangar.module.css";
+import styles from "./Dock.module.css";
 
-export default function Hangar() {
+export default function Dock() {
   const { packs, equippedId, loading, error, equip, unequip } = useSkins();
 
   const isDefaultEquipped = !equippedId;
@@ -15,7 +15,7 @@ export default function Hangar() {
 
       <main className={styles.content}>
         <header className={styles.header}>
-          <h1 className={styles.title}>Hangar de Skins</h1>
+          <h1 className={styles.title}>Doca de Skins</h1>
           <span className={styles.subtitle}>
             Escolha o visual da sua frota
           </span>
