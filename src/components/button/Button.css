@@ -121,3 +121,18 @@
   border-bottom-color: #dd3333;
   border-right-color: #dd3333;
 }
+
+
+.btn-icon {
+  background: transparent;
+  border: none;
+  padding: 0;
+  opacity: 0.5;
+  font-size: 16px;
+  width: 32px;
+  height: 32px;
+}
+
+.btn-icon:hover {
+  opacity: 1;
+}

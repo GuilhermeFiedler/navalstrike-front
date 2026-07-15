@@ -29,78 +29,6 @@
   gap: var(--space-3);
 }
 
-.btnMusic {
-  position: fixed;
-  bottom: var(--space-5);
-  right: var(--space-5);
-  font-size: 16px;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border: none;
-  background: transparent;
-  opacity: 0.5;
-  z-index: 50;
-}
-
-.btnMusic:hover {
-  opacity: 1;
-}
-
-.btnMusic:active {
-  transform: translateY(2px);
-}
-
-.btnRefresh {
-  font-family: var(--font-pixel);
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: var(--space-3) var(--space-5);
-  cursor: pointer;
-  border: 3px solid var(--primary);
-  background-color: var(--primary);
-  color: var(--on-primary);
-}
-
-.btnRefresh:hover {
-  background-color: var(--primary-container);
-}
-
-.btnRefresh:active {
-  transform: translateY(2px);
-}
-
-.btnCreate {
-  font-family: var(--font-pixel);
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: var(--space-3) var(--space-5);
-  cursor: pointer;
-  border: 3px solid var(--secondary);
-  background-color: var(--secondary);
-  color: var(--on-secondary);
-}
-
-.btnCreate:hover {
-  background-color: #891a2c;
-}
-
-.btnCreate:active {
-  transform: translateY(2px);
-}
-
-.btnCreate:disabled,
-.btnRefresh:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
-
 .error {
   color: var(--secondary);
   font-family: var(--font-body);
@@ -238,25 +166,6 @@
 .statusWaiting {
   background-color: var(--on-tertiary-container);
   color: var(--on-tertiary);
-}
-
-.btnConnect {
-  font-family: var(--font-pixel);
-  font-size: 10px;
-  text-transform: uppercase;
-  padding: var(--space-2) var(--space-4);
-  cursor: pointer;
-  border: 3px solid var(--primary);
-  background-color: var(--primary);
-  color: var(--on-primary);
-}
-
-.btnConnect:hover {
-  background-color: var(--primary-container);
-}
-
-.btnConnect:active {
-  transform: translateY(2px);
 }
 
 .loadingCard {

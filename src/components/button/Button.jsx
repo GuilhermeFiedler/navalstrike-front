@@ -1,6 +1,14 @@
 import './Button.css'
-export default function Button({ children, onClick, type="button", variant = "primary"}){
-    return(
-        <button type={type} onClick={onClick} className={`btn btn-${variant}`}>{children}</button>
-    )
+
+export default function Button({ children, onClick, type = "button", variant = "primary", className = "", ...rest }) {
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      className={`btn btn-${variant} ${className}`.trim()}
+      {...rest}
+    >
+      {children}
+    </button>
+  )
 }

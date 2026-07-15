@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./Hub.module.css";
+import Button from "../../components/button/Button";
 
 export default function JoinByCode({ onJoin, onError }) {
   const [code, setCode] = useState("");
@@ -28,9 +29,9 @@ export default function JoinByCode({ onJoin, onError }) {
           value={code}
           onChange={(e) => setCode(e.target.value.toUpperCase())}
         />
-        <button type="submit" className={styles.btnConnect}>
+        <Button type="submit" variant="primary">
           Ingressar
-        </button>
+        </Button>
       </div>
     </form>
   );

@@ -1,4 +1,5 @@
 import styles from "./Hub.module.css";
+import Button from "../../components/button/Button";
 
 export default function MatchCard({ match, userId, onConnect, onJoin }) {
   const playerCount = match.playerCount ?? match.players?.length ?? 1;
@@ -42,17 +43,17 @@ export default function MatchCard({ match, userId, onConnect, onJoin }) {
         </span>
 
         {isFull && inMatch ? (
-          <button className={styles.btnConnect} onClick={() => onConnect(match.id)}>
+          <Button variant="primary" onClick={() => onConnect(match.id)}>
             Conectar
-          </button>
+          </Button>
         ) : !isFull && !inMatch ? (
-          <button className={styles.btnConnect} onClick={() => onJoin(match.id)}>
+          <Button variant="primary" onClick={() => onJoin(match.id)}>
             Desafiar
-          </button>
+          </Button>
         ) : !isFull && inMatch ? (
-          <button className={styles.btnConnect} onClick={() => onConnect(match.id)}>
+          <Button variant="primary" onClick={() => onConnect(match.id)}>
             Conectar
-          </button>
+          </Button>
         ) : null}
       </div>
     </div>

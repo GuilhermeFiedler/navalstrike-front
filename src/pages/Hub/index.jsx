@@ -4,6 +4,7 @@ import useAuth from "../../hooks/useAuth";
 import useLobbyMusic from "../../hooks/useLobbyMusic";
 import api from "../../utils/api";
 import Sidebar from "../../components/sidebar/Sidebar";
+import Button from "../../components/button/Button";
 import MatchCard from "./MatchCard";
 import JoinByCode from "./JoinByCode";
 import styles from "./Hub.module.css";
@@ -85,20 +86,20 @@ export default function Hub() {
         <header className={styles.header}>
           <h1 className={styles.title}>Listagem de Partidas</h1>
           <div className={styles.headerActions}>
-            <button
-              className={styles.btnRefresh}
+            <Button
+              variant="primary"
               onClick={fetchMatches}
               disabled={loading}
             >
               Atualizar Lista
-            </button>
-            <button
-              className={styles.btnCreate}
+            </Button>
+            <Button
+              variant="secondary"
               onClick={handleCreate}
               disabled={creating}
             >
               {creating ? "Criando..." : "Nova Partida"}
-            </button>
+            </Button>
           </div>
         </header>
 
@@ -134,13 +135,14 @@ export default function Hub() {
           )}
         </div>
 
-        <button
-          className={styles.btnMusic}
+        <Button
+          variant="icon"
           onClick={toggle}
           aria-label={playing ? "Pausar música" : "Tocar música"}
+          style={{ position: 'fixed', bottom: 'var(--space-5)', right: 'var(--space-5)', zIndex: 50 }}
         >
           {playing ? "🔊" : "🔇"}
-        </button>
+        </Button>
       </main>
     </div>
   );
