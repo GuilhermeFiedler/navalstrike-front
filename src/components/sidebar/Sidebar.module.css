@@ -16,10 +16,12 @@
   padding: var(--space-3) var(--space-4);
   border: 2px solid var(--primary);
   background-color: var(--surface-container-lowest);
+  overflow: hidden;
 }
 
 .userIcon {
   font-size: 20px;
+  flex-shrink: 0;
 }
 
 .userName {
@@ -27,6 +29,9 @@
   font-size: 11px;
   color: var(--on-surface);
   text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .nav {
