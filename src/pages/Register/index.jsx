@@ -24,9 +24,19 @@ export default function Register() {
       return;
     }
 
+    if (name.trim().length < 3 || name.trim().length > 15) {
+      setError("Nome de usuário deve ter entre 3 e 15 caracteres");
+      return;
+    }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("Formato de email inválido");
+      return;
+    }
+
+    if (password.length < 8 || password.length > 128) {
+      setError("A senha deve ter entre 8 e 128 caracteres");
       return;
     }
 
@@ -79,6 +89,7 @@ export default function Register() {
                 placeholder="Insira seu nome"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                maxLength={15}
                 autoComplete="username"
               />
             </div>
