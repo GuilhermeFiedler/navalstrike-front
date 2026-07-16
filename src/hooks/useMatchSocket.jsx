@@ -43,7 +43,7 @@ export default function useMatchSocket(matchId, token, onEvent) {
         if (!cancelled) setConnected(false);
       },
       onStompError: (frame) => {
-        console.error("STOMP error:", frame.headers["message"]);
+        //console.error("STOMP error:", frame.headers["message"]);
         if (!cancelled) setConnected(false);
       },
     });
