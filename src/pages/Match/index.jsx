@@ -11,6 +11,7 @@ import Waiting from "./matchstate/Waiting";
 import OnGoing from "./matchstate/OnGoing";
 import Finished from "./matchstate/Finished";
 import DisconnectOverlay from "./DisconnectOverlay";
+import Modal from "../../components/Modal/Modal";
 import styles from "./Match.module.css";
 import { FaTimes, FaFlag, FaCircle, FaRegCircle } from "react-icons/fa";
 
@@ -33,6 +34,7 @@ export default function Match() {
   const [notification, setNotification] = useState(null);
   const [opponentDisconnected, setOpponentDisconnected] = useState(false);
   const [disconnectSeconds, setDisconnectSeconds] = useState(0);
+  const [showLeaveModal, setShowLeaveModal] = useState(false);
   const matchIdRef = useRef(id);
   const matchStatusRef = useRef(null);
   const { playHit, playMiss, playSunk } = useSoundFX();
@@ -193,17 +195,22 @@ export default function Match() {
     const isWaiting = match && match.status === "WAITING";
 
     if (inProgress) {
-      const confirmed = window.confirm("Tem certeza? Você vai abandonar a partida e o oponente vencerá.");
-      if (!confirmed) return;
-      try {
-        await api.post(`/matches/${id}/forfeit`);
-      } catch {}
+      setShowLeaveModal(true);
+      return;
     } else if (isWaiting) {
       try {
         await api.post(`/matches/${id}/forfeit`);
       } catch {}
     }
 
+    navigate("/hub");
+  }
+
+  async function confirmLeave() {
+    setShowLeaveModal(false);
+    try {
+      await api.post(`/matches/${id}/forfeit`);
+    } catch {}
     navigate("/hub");
   }
 
@@ -267,6 +274,18 @@ export default function Match() {
       )}
 
       {opponentDisconnected && <DisconnectOverlay seconds={disconnectSeconds} />}
+
+      <Modal
+        open={showLeaveModal}
+        title="Abandonar partida"
+        onConfirm={confirmLeave}
+        onCancel={() => setShowLeaveModal(false)}
+        confirmLabel="Desistir"
+        cancelLabel="Voltar"
+        variant="danger"
+      >
+        <p>Tem certeza? Você vai abandonar a partida e o oponente vencerá.</p>
+      </Modal>
     </div>
   );
 }
