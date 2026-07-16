@@ -1,7 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import lobbySong from "../assets/lobby/oceanlobbysong.mp3";
 
-export default function useLobbyMusic(autoplay = true) {
+const MUSIC_PREF_KEY = "lobbyMusicEnabled";
+
+function getMusicPref() {
+  const stored = localStorage.getItem(MUSIC_PREF_KEY);
+  if (stored === null) return true;
+  return stored === "true";
+}
+
+export default function useLobbyMusic() {
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
 
@@ -11,7 +19,8 @@ export default function useLobbyMusic(autoplay = true) {
     audio.volume = 0.3;
     audioRef.current = audio;
 
-    if (autoplay) {
+    const shouldPlay = getMusicPref();
+    if (shouldPlay) {
       audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
     }
 
@@ -29,8 +38,10 @@ export default function useLobbyMusic(autoplay = true) {
     if (playing) {
       audio.pause();
       setPlaying(false);
+      localStorage.setItem(MUSIC_PREF_KEY, "false");
     } else {
       audio.play().then(() => setPlaying(true)).catch(() => {});
+      localStorage.setItem(MUSIC_PREF_KEY, "true");
     }
   }
 
