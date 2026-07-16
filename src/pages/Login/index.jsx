@@ -17,6 +17,12 @@ export default function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
+
+    if (!email.trim() || !password) {
+      setError("Preencha todos os campos");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -52,11 +58,10 @@ export default function Login() {
             <div className={styles.inputWrapper}>
               <input
                 id="email"
-                type="email"
+                type="text"
                 placeholder="comandante@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
                 autoComplete="email"
               />
               <span className={styles.inputIcon}><GiMailbox /></span>
@@ -72,7 +77,6 @@ export default function Login() {
                 placeholder="********"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
                 autoComplete="current-password"
               />
               <span className={styles.inputIcon}><GiKeyLock /></span>

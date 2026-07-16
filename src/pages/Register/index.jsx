@@ -19,6 +19,17 @@ export default function Register() {
     e.preventDefault();
     setError("");
 
+    if (!name.trim() || !email.trim() || !password || !passwordConfirmation) {
+      setError("Preencha todos os campos");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Formato de email inválido");
+      return;
+    }
+
     if (password !== passwordConfirmation) {
       setError("As senhas não conferem");
       return;
@@ -68,7 +79,6 @@ export default function Register() {
                 placeholder="Insira seu nome"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                required
                 autoComplete="username"
               />
             </div>
@@ -81,11 +91,10 @@ export default function Register() {
               <span className={styles.inputIcon}><GiMailbox /></span>
               <input
                 id="email"
-                type="email"
+                type="text"
                 placeholder="navio@strike.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
                 autoComplete="email"
               />
             </div>
@@ -103,7 +112,6 @@ export default function Register() {
                   placeholder="********"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  required
                   autoComplete="new-password"
                 />
               </div>
@@ -119,7 +127,6 @@ export default function Register() {
                   placeholder="********"
                   value={passwordConfirmation}
                   onChange={(e) => setPasswordConfirmation(e.target.value)}
-                  required
                   autoComplete="new-password"
                 />
               </div>
