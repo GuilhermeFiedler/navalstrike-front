@@ -116,5 +116,16 @@ export default function useSoundFX() {
     });
   }, []);
 
-  return { playHit, playMiss, playSunk };
+  const playClick = useCallback(() => {
+    const ctx = getCtx();
+    createTone(ctx, {
+      type: "square",
+      freqStart: 660,
+      freqEnd: 440,
+      duration: 0.06,
+      volume: 0.15,
+    });
+  }, []);
+
+  return { playHit, playMiss, playSunk, playClick };
 }
