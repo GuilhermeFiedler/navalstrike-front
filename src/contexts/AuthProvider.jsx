@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import AuthContext from "./AuthContext";
 import api from "../utils/api";
-import LoadingScreen from "../components/LoadingScreen";
+import LoadingScreen from "../components/loading/LoadingScreen";
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);

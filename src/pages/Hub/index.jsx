@@ -1,5 +1,5 @@
 import Sidebar from "../../components/sidebar/Sidebar";
-import OceanBackground from "../../components/OceanBackground";
+import OceanBackground from "../../components/oceanBackground/OceanBackground";
 import useMatches from "../../hooks/useMatches";
 import HubHeader from "./HubHeader";
 import MatchList from "./MatchList";

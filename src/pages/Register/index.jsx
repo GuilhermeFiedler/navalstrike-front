@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
-import OceanShader from "../../components/OceanShader";
+import OceanShader from "../../components/oceanShader/OceanShader";
 import styles from "./Register.module.css";
 import { GiPirateFlag, GiMailbox, GiKeyLock, GiLockedChest } from "react-icons/gi";
 

@@ -2,7 +2,7 @@ import styles from "./Login.module.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
-import OceanShader from "../../components/OceanShader";
+import OceanShader from "../../components/oceanShader/OceanShader";
 import { GiLockedChest, GiKeyLock, GiPirateFlag, GiMailbox } from "react-icons/gi";
 import navalstrikeIcon from "../../assets/navalstrikeIcon.png";
 

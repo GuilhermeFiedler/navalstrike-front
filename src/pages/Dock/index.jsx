@@ -1,5 +1,5 @@
 import Sidebar from "../../components/sidebar/Sidebar";
-import OceanBackground from "../../components/OceanBackground";
+import OceanBackground from "../../components/oceanBackground/OceanBackground";
 import useSkins from "../../hooks/useSkins";
 import SkinCard from "./SkinCard";
 import DefaultSkinCard from "./DefaultSkinCard";

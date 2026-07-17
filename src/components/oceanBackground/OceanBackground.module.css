@@ -3,7 +3,7 @@
   inset: 0;
   z-index: 0;
   overflow: hidden;
-  background-image: url("../assets/lobby/spritesheet_grid_oceanwaves.png");
+  background-image: url("../../assets/lobby/spritesheet_grid_oceanwaves.png");
   background-size: 300% 200%;
   animation: play 1.2s steps(1) infinite;
   image-rendering: pixelated;

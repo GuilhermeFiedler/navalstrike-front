@@ -6,7 +6,7 @@ import useSoundFX from "../../hooks/useSoundFX";
 import useAnimations from "../../hooks/useAnimations";
 import api from "../../utils/api";
 import { WS_EVENTS, SHIP_LABELS, GAME_STATUS } from "../../constants";
-import OceanShader from "../../components/OceanShader";
+import OceanShader from "../../components/oceanShader/OceanShader";
 import Placing from "./placing/Placing";
 import Waiting from "./matchstate/Waiting";
 import OnGoing from "./matchstate/OnGoing";

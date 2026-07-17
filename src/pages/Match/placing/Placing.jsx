@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../../../utils/api";
 import { SHIPS } from "../shipConfig";
-import { getShipCoords, hasCollision } from "./placingUtils";
+import { getShipCoords, hasCollision } from "../../../utils/placingUtils";
 import PlacingBoard from "./PlacingBoard";
 import ShipList from "../ShipList";
 import styles from "../Match.module.css";
