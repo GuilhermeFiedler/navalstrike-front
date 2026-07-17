@@ -1,12 +1,14 @@
 import { getShipImage } from "../../components/ships/shipImages";
 import { SHIP_TYPES, SHIP_LABELS } from "../../constants";
+import NavalCard from "../../components/NavalCard/NavalCard";
+import Button from "../../components/button/Button";
 import styles from "./Dock.module.css";
 
 export default function SkinCard({ pack, isEquipped, onEquip, onUnequip }) {
   const slug = pack.slug;
 
   return (
-    <div className={`${styles.skinCard} ${isEquipped ? styles.skinCardEquipped : ""}`}>
+    <NavalCard className={`${styles.skinCard} ${isEquipped ? styles.skinCardEquipped : ""}`}>
       <div className={styles.skinCardHeader}>
         <h3 className={styles.skinName}>{pack.name}</h3>
         {isEquipped && <span className={styles.equippedBadge}>EQUIPADA</span>}
@@ -30,15 +32,15 @@ export default function SkinCard({ pack, isEquipped, onEquip, onUnequip }) {
 
       <div className={styles.skinCardActions}>
         {isEquipped ? (
-          <button className={styles.btnUnequip} onClick={onUnequip}>
+          <Button variant="secondary" onClick={onUnequip}>
             Desequipar
-          </button>
+          </Button>
         ) : (
-          <button className={styles.btnEquip} onClick={() => onEquip(pack.id)}>
+          <Button variant="primary" onClick={() => onEquip(pack.id)}>
             Equipar
-          </button>
+          </Button>
         )}
       </div>
-    </div>
+    </NavalCard>
   );
 }

@@ -258,10 +258,16 @@
 
 .pagination {
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: var(--space-4);
   margin-top: var(--space-6);
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--surface-container-low);
+  border: 2px solid var(--outline);
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .pageBtn {

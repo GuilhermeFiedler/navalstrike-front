@@ -1,10 +1,12 @@
 import { DEFAULT_IMAGES } from "../../components/ships/shipImages";
 import { SHIP_TYPES, SHIP_LABELS } from "../../constants";
+import NavalCard from "../../components/NavalCard/NavalCard";
+import Button from "../../components/button/Button";
 import styles from "./Dock.module.css";
 
 export default function DefaultSkinCard({ isEquipped, onSelect }) {
   return (
-    <div className={`${styles.skinCard} ${isEquipped ? styles.skinCardEquipped : ""}`}>
+    <NavalCard className={`${styles.skinCard} ${isEquipped ? styles.skinCardEquipped : ""}`}>
       <div className={styles.skinCardHeader}>
         <h3 className={styles.skinName}>Padrão</h3>
         {isEquipped && <span className={styles.equippedBadge}>EQUIPADA</span>}
@@ -30,11 +32,11 @@ export default function DefaultSkinCard({ isEquipped, onSelect }) {
         {isEquipped ? (
           <span className={styles.equippedText}>Visual ativo</span>
         ) : (
-          <button className={styles.btnEquip} onClick={onSelect}>
+          <Button variant="primary" onClick={onSelect}>
             Usar padrão
-          </button>
+          </Button>
         )}
       </div>
-    </div>
+    </NavalCard>
   );
 }

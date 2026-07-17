@@ -1,5 +1,6 @@
 import Sidebar from "../../components/sidebar/Sidebar";
 import OceanBackground from "../../components/oceanBackground/OceanBackground";
+import Button from "../../components/button/Button";
 import useHistory from "../../hooks/useHistory";
 import StatsRow from "./StatsRow";
 import MatchHistoryCard from "./MatchHistoryCard";
@@ -30,13 +31,13 @@ export default function Logbook() {
         <header className={styles.header}>
           <h1 className={styles.title}>Logbook</h1>
           <div className={styles.headerActions}>
-            <button
-              className={styles.btnRefresh}
+            <Button
+              variant="ghost"
               onClick={fetchHistory}
               disabled={loading}
             >
               Atualizar
-            </button>
+            </Button>
           </div>
         </header>
 
