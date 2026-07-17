@@ -1,0 +1,98 @@
+:root {
+  --card-bg: #F4EAD2;
+  --card-bg-dark: #E8DCC0;
+  --card-border: #1B2838;
+  --card-border-inner: #2C3E50;
+  --card-shadow: #0D1520;
+  --card-rivet: #3B4A5C;
+  --card-rivet-highlight: #5A6E82;
+  --card-accent: #1B2838;
+}
+
+.navalCard {
+  position: relative;
+  background-color: var(--card-bg);
+  border: 4px solid var(--card-border);
+  box-shadow:
+    4px 4px 0px 0px var(--card-shadow),
+    inset 0 0 0 2px var(--card-border-inner);
+  padding: 20px;
+  image-rendering: pixelated;
+}
+
+.rivets {
+  position: absolute;
+  inset: 6px;
+  pointer-events: none;
+}
+
+.rivet {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: var(--card-rivet);
+  box-shadow:
+    inset -2px -2px 0px 0px var(--card-shadow),
+    inset 2px 2px 0px 0px var(--card-rivet-highlight);
+}
+
+.rivet:nth-child(1) {
+  top: 0;
+  left: 0;
+}
+
+.rivet:nth-child(2) {
+  top: 0;
+  right: 0;
+}
+
+.rivet:nth-child(3) {
+  bottom: 0;
+  left: 0;
+}
+
+.rivet:nth-child(4) {
+  bottom: 0;
+  right: 0;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+}
+
+.inner::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  opacity: 0.1;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--card-accent) 0px,
+      var(--card-accent) 8px,
+      transparent 8px,
+      transparent 12px
+    );
+}
+
+.inner::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  opacity: 0.1;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--card-accent) 0px,
+      var(--card-accent) 8px,
+      transparent 8px,
+      transparent 12px
+    );
+}

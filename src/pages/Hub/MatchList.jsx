@@ -1,5 +1,6 @@
 import MatchCard from "./MatchCard";
 import styles from "./Hub.module.css";
+import NavalCard from "../../components/NavalCard/NavalCard";
 import { GiAnchor } from "react-icons/gi";
 
 export default function MatchList({ matches, loading, userId, onConnect, onJoin }) {
@@ -16,19 +17,19 @@ export default function MatchList({ matches, loading, userId, onConnect, onJoin 
       ))}
 
       {loading && (
-        <div className={styles.loadingCard}>
+        <NavalCard className={styles.loadingCard}>
           <span className={styles.loadingIcon}>⟳</span>
           <span className={styles.loadingText}>Buscando novos setores...</span>
-        </div>
+        </NavalCard>
       )}
 
       {!loading && matches.length === 0 && (
-        <div className={styles.emptyState}>
+        <NavalCard className={styles.emptyState}>
           <span><GiAnchor /></span>
           <span className={styles.emptyText}>
             Nenhuma partida disponível no momento.
           </span>
-        </div>
+        </NavalCard>
       )}
     </div>
   );

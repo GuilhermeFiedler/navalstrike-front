@@ -37,7 +37,9 @@ export default function Hub() {
 
         {error && <p className={styles.error}>{error}</p>}
 
-        <JoinByCode onJoin={handleJoinByCode} onError={setError} />
+        <div className={styles.codeWrapper}>
+          <JoinByCode onJoin={handleJoinByCode} onError={setError} />
+        </div>
 
         <MatchList
           matches={matches}

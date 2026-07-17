@@ -45,32 +45,6 @@
   margin-bottom: var(--space-4);
 }
 
-.codeSection {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-  margin-bottom: var(--space-5);
-  padding: var(--space-3) var(--space-5);
-  border: 2px solid var(--outline);
-  background-color: var(--surface-container-low);
-  background-image:
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(139, 119, 75, 0.03) 2px,
-      rgba(139, 119, 75, 0.03) 4px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 2px,
-      rgba(139, 119, 75, 0.02) 2px,
-      rgba(139, 119, 75, 0.02) 4px
-    );
-}
-
 .codeLabel {
   font-family: var(--font-pixel);
   font-size: 9px;
@@ -114,26 +88,21 @@
   display: flex;
   align-items: center;
   gap: var(--space-5);
-  padding: var(--space-4) var(--space-5);
-  border: 3px solid var(--primary);
-  background-color: var(--surface-container-low);
-  background-image:
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(139, 119, 75, 0.03) 2px,
-      rgba(139, 119, 75, 0.03) 4px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 2px,
-      rgba(139, 119, 75, 0.02) 2px,
-      rgba(139, 119, 75, 0.02) 4px
-    );
-  position: relative;
-  overflow: hidden;
+}
+
+.codeSection {
+  margin-bottom: var(--space-6);
+}
+
+.codeWrapper {
+  margin-bottom: var(--space-6);
+}
+
+.codeForm {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
 }
 
 .matchIcon {
@@ -220,24 +189,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-3);
-  padding: var(--space-7) var(--space-5);
-  border: 3px dashed var(--primary);
-  background-color: var(--surface-container-low);
-  background-image:
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(139, 119, 75, 0.03) 2px,
-      rgba(139, 119, 75, 0.03) 4px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 2px,
-      rgba(139, 119, 75, 0.02) 2px,
-      rgba(139, 119, 75, 0.02) 4px
-    );
+  padding: var(--space-4) 0;
 }
 
 .loadingIcon {
@@ -264,24 +216,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-3);
-  padding: var(--space-7) var(--space-5);
-  border: 3px dashed var(--outline);
-  background-color: var(--surface-container-low);
-  background-image:
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(139, 119, 75, 0.03) 2px,
-      rgba(139, 119, 75, 0.03) 4px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 2px,
-      rgba(139, 119, 75, 0.02) 2px,
-      rgba(139, 119, 75, 0.02) 4px
-    );
+  padding: var(--space-4) 0;
 }
 
 .emptyText {

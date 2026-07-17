@@ -1,5 +1,6 @@
 import styles from "./Hub.module.css";
 import Button from "../../components/button/Button";
+import NavalCard from "../../components/NavalCard/NavalCard";
 import { GiAnchor, GiWaves } from "react-icons/gi";
 
 export default function MatchCard({ match, userId, onConnect, onJoin }) {
@@ -16,7 +17,7 @@ export default function MatchCard({ match, userId, onConnect, onJoin }) {
   const inMatch = isUserInMatch();
 
   return (
-    <div className={styles.matchCard}>
+    <NavalCard className={styles.matchCard}>
       <div
         className={`${styles.matchIcon} ${
           isFull ? styles.matchIconActive : styles.matchIconWaiting
@@ -57,6 +58,6 @@ export default function MatchCard({ match, userId, onConnect, onJoin }) {
           </Button>
         ) : null}
       </div>
-    </div>
+    </NavalCard>
   );
 }
