@@ -3,18 +3,7 @@ import battleship from "../../assets/battleship.png";
 import cruiser from "../../assets/cruiser.png";
 import submarine from "../../assets/submarine.png";
 import destroyer from "../../assets/destroyer.png";
-
-import animalCarrier from "../../assets/skins/animalia/animalcarrier.png";
-import animalBattleship from "../../assets/skins/animalia/animalbattleship.png";
-import animalCruiser from "../../assets/skins/animalia/animalcruiser.png";
-import animalSubmarine from "../../assets/skins/animalia/animalsubmarine.png";
-import animalDestroyer from "../../assets/skins/animalia/animaldestroyer.png";
-
-import galaxyCarrier from "../../assets/skins/galaxy/galaxycarrier.png";
-import galaxyBattleship from "../../assets/skins/galaxy/galaxybattleship.png";
-import galaxyCruiser from "../../assets/skins/galaxy/galaxycruiser.png";
-import galaxySubmarine from "../../assets/skins/galaxy/galaxysubmarine.png";
-import galaxyDestroyer from "../../assets/skins/galaxy/galaxydestroyer.png";
+import { SHIP_TYPES } from "../../constants";
 
 export const DEFAULT_IMAGES = {
   CARRIER: carrier,
@@ -24,22 +13,31 @@ export const DEFAULT_IMAGES = {
   DESTROYER: destroyer,
 };
 
-export const SKIN_REGISTRY = {
-  animalia: {
-    CARRIER: animalCarrier,
-    BATTLESHIP: animalBattleship,
-    CRUISER: animalCruiser,
-    SUBMARINE: animalSubmarine,
-    DESTROYER: animalDestroyer,
-  },
-  galaxy: {
-    CARRIER: galaxyCarrier,
-    BATTLESHIP: galaxyBattleship,
-    CRUISER: galaxyCruiser,
-    SUBMARINE: galaxySubmarine,
-    DESTROYER: galaxyDestroyer,
-  },
-};
+const SHIP_TYPES_LOWER = SHIP_TYPES.map((t) => t.toLowerCase());
+
+const skinModules = import.meta.glob("../../assets/skins/**/*.png", { eager: true });
+
+function buildSkinRegistry() {
+  const registry = {};
+
+  for (const [path, module] of Object.entries(skinModules)) {
+    const parts = path.split("/");
+    const slug = parts[parts.length - 2];
+    const fileName = parts[parts.length - 1].replace(".png", "").toLowerCase();
+
+    const shipType = SHIP_TYPES_LOWER.find((type) => fileName.includes(type));
+    if (!shipType) continue;
+
+    if (!registry[slug]) registry[slug] = {};
+    registry[slug][shipType.toUpperCase()] = module.default;
+  }
+
+  return registry;
+}
+
+const SKIN_REGISTRY = buildSkinRegistry();
+
+export { SKIN_REGISTRY };
 
 export function getShipImage(skinSlug, shipType) {
   if (!skinSlug) return DEFAULT_IMAGES[shipType];

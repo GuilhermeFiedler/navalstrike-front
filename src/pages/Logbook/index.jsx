@@ -2,11 +2,10 @@ import { useState, useEffect } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import OceanBackground from "../../components/OceanBackground";
 import api from "../../utils/api";
+import { PAGE_SIZE } from "../../constants";
 import styles from "./Logbook.module.css";
 import { FaClipboardList } from "react-icons/fa";
 import { GiAnchor, GiSkullCrossedBones } from "react-icons/gi";
-
-const PAGE_SIZE = 5;
 
 export default function Logbook() {
   const [history, setHistory] = useState([]);

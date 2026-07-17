@@ -5,6 +5,7 @@ import useMatchSocket from "../../hooks/useMatchSocket";
 import useSoundFX from "../../hooks/useSoundFX";
 import useAnimations from "../../hooks/useAnimations";
 import api from "../../utils/api";
+import { WS_EVENTS, SHIP_LABELS, GAME_STATUS } from "../../constants";
 import OceanShader from "../../components/OceanShader";
 import Placing from "./placing/Placing";
 import Waiting from "./matchstate/Waiting";
@@ -14,14 +15,6 @@ import DisconnectOverlay from "./DisconnectOverlay";
 import Modal from "../../components/Modal/Modal";
 import styles from "./Match.module.css";
 import { FaTimes, FaFlag, FaCircle, FaRegCircle } from "react-icons/fa";
-
-const SHIP_NAMES = {
-  CARRIER: "Porta-aviões",
-  BATTLESHIP: "Encouraçado",
-  CRUISER: "Cruzador",
-  SUBMARINE: "Submarino",
-  DESTROYER: "Destroyer",
-};
 
 export default function Match() {
   const { id } = useParams();
@@ -50,7 +43,7 @@ export default function Match() {
 
   useEffect(() => {
     return () => {
-      if (matchStatusRef.current === "WAITING") {
+      if (matchStatusRef.current === GAME_STATUS.WAITING) {
         api.post(`/matches/${matchIdRef.current}/forfeit`).catch(() => {});
       }
     };
@@ -75,8 +68,8 @@ export default function Match() {
     api.get(`/matches/${matchIdRef.current}`)
       .then((res) => {
         setMatch((prev) => {
-          if (prev?.status === "FINISHED") return prev;
-          if (res.data.status === "FINISHED" && !res.data.winnerId) {
+          if (prev?.status === GAME_STATUS.FINISHED) return prev;
+          if (res.data.status === GAME_STATUS.FINISHED && !res.data.winnerId) {
             return prev;
           }
           return res.data;
@@ -91,18 +84,18 @@ export default function Match() {
         refreshMatch();
         break;
 
-      case "PLAYER_JOINED":
-        setMatch((prev) => prev ? { ...prev, status: "PLACING" } : prev);
+      case WS_EVENTS.PLAYER_JOINED:
+        setMatch((prev) => prev ? { ...prev, status: GAME_STATUS.PLACING } : prev);
         break;
 
-      case "SHIPS_PLACED":
+      case WS_EVENTS.SHIPS_PLACED:
         break;
 
-      case "GAME_STARTED":
+      case WS_EVENTS.GAME_STARTED:
         refreshMatch();
         break;
 
-      case "ATTACK_RESULT": {
+      case WS_EVENTS.ATTACK_RESULT: {
         const { x, y, hit, sunk, shipType } = event.payload;
         const attackerId = event.playerId;
         const isMyAttack = attackerId === user.id;
@@ -122,7 +115,7 @@ export default function Match() {
         }
 
         if (sunk) {
-          const name = SHIP_NAMES[shipType] || "Navio";
+          const name = SHIP_LABELS[shipType] || "Navio";
           showNotification(isMyAttack ? `${name} inimigo destruído!` : `Seu ${name} foi destruído!`);
         }
 
@@ -148,32 +141,32 @@ export default function Match() {
         break;
       }
 
-      case "GAME_OVER":
+      case WS_EVENTS.GAME_OVER:
         setMatch((prev) => prev ? ({
           ...prev,
-          status: "FINISHED",
+          status: GAME_STATUS.FINISHED,
           winnerId: event.payload.winnerId,
         }) : prev);
         break;
 
-      case "PLAYER_FORFEIT":
+      case WS_EVENTS.PLAYER_FORFEIT:
         setOpponentDisconnected(false);
         setMatch((prev) => prev ? ({
           ...prev,
-          status: "FINISHED",
+          status: GAME_STATUS.FINISHED,
           winnerId: event.payload.winnerId,
           forfeitedBy: event.payload.quitterId,
         }) : prev);
         break;
 
-      case "PLAYER_DISCONNECTED":
+      case WS_EVENTS.PLAYER_DISCONNECTED:
         if (event.playerId !== user.id) {
           setOpponentDisconnected(true);
           setDisconnectSeconds(event.payload.timeoutSeconds);
         }
         break;
 
-      case "PLAYER_RECONNECTED":
+      case WS_EVENTS.PLAYER_RECONNECTED:
         if (event.playerId !== user.id) {
           setOpponentDisconnected(false);
         }
@@ -191,8 +184,8 @@ export default function Match() {
   }
 
   async function handleLeave() {
-    const inProgress = match && (match.status === "PLACING" || match.status === "ON_GOING");
-    const isWaiting = match && match.status === "WAITING";
+    const inProgress = match && (match.status === GAME_STATUS.PLACING || match.status === GAME_STATUS.ON_GOING);
+    const isWaiting = match && match.status === GAME_STATUS.WAITING;
 
     if (inProgress) {
       setShowLeaveModal(true);
@@ -224,9 +217,9 @@ export default function Match() {
 
   function getLeaveLabel() {
     if (!match) return "← VOLTAR";
-    if (match.status === "WAITING") return <><FaTimes /> SAIR</>;
-    if (match.status === "PLACING") return <><FaTimes /> CANCELAR</>;
-    if (match.status === "ON_GOING") return <><FaFlag /> DESISTIR</>;
+    if (match.status === GAME_STATUS.WAITING) return <><FaTimes /> SAIR</>;
+    if (match.status === GAME_STATUS.PLACING) return <><FaTimes /> CANCELAR</>;
+    if (match.status === GAME_STATUS.ON_GOING) return <><FaFlag /> DESISTIR</>;
     return "← VOLTAR";
   }
 
@@ -252,11 +245,11 @@ export default function Match() {
       {error && <p className="error">{error}</p>}
       {notification && <div className={styles.notification}>{notification}</div>}
 
-      {match.status === "WAITING" && <Waiting code={state?.code} />}
-      {match.status === "PLACING" && (
+      {match.status === GAME_STATUS.WAITING && <Waiting code={state?.code} />}
+      {match.status === GAME_STATUS.PLACING && (
         <Placing matchId={id} myBoard={match.myBoard} onPlaced={handlePlaced} />
       )}
-      {match.status === "ON_GOING" && (
+      {match.status === GAME_STATUS.ON_GOING && (
         <OnGoing
           match={match}
           isMyTurn={isMyTurn}
@@ -269,7 +262,7 @@ export default function Match() {
           onMissAnimEnd={removeMissAnim}
         />
       )}
-      {match.status === "FINISHED" && (
+      {match.status === GAME_STATUS.FINISHED && (
         <Finished winnerId={match.winnerId} userId={user.id} forfeitedBy={match.forfeitedBy} />
       )}
 

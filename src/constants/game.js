@@ -1,0 +1,13 @@
+export const GAME_STATUS = {
+  WAITING: "WAITING",
+  PLACING: "PLACING",
+  ON_GOING: "ON_GOING",
+  FINISHED: "FINISHED",
+};
+
+export const BOARD_SIZE = 10;
+
+export const MATCH_RESULT = {
+  VICTORY: "VICTORY",
+  DEFEAT: "DEFEAT",
+};

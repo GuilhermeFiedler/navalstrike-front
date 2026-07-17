@@ -1,15 +1,6 @@
 import { getShipImage } from "../../components/ships/shipImages";
+import { SHIP_TYPES, SHIP_LABELS } from "../../constants";
 import styles from "./Dock.module.css";
-
-const SHIP_TYPES = ["CARRIER", "BATTLESHIP", "CRUISER", "SUBMARINE", "DESTROYER"];
-
-const SHIP_LABELS = {
-  CARRIER: "Porta-aviões",
-  BATTLESHIP: "Encouraçado",
-  CRUISER: "Cruzador",
-  SUBMARINE: "Submarino",
-  DESTROYER: "Destroyer",
-};
 
 export default function SkinCard({ pack, isEquipped, onEquip, onUnequip }) {
   const slug = pack.slug;
