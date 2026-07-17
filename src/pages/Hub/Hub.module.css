@@ -9,6 +9,12 @@
   padding: var(--space-6) var(--space-8);
   background-color: var(--surface);
   overflow: hidden;
+  position: relative;
+}
+
+.content > *:not([aria-hidden]) {
+  position: relative;
+  z-index: 1;
 }
 
 .header {
@@ -48,6 +54,21 @@
   padding: var(--space-3) var(--space-5);
   border: 2px solid var(--outline);
   background-color: var(--surface-container-low);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(139, 119, 75, 0.03) 2px,
+      rgba(139, 119, 75, 0.03) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(139, 119, 75, 0.02) 2px,
+      rgba(139, 119, 75, 0.02) 4px
+    );
 }
 
 .codeLabel {
@@ -96,6 +117,21 @@
   padding: var(--space-4) var(--space-5);
   border: 3px solid var(--primary);
   background-color: var(--surface-container-low);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(139, 119, 75, 0.03) 2px,
+      rgba(139, 119, 75, 0.03) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(139, 119, 75, 0.02) 2px,
+      rgba(139, 119, 75, 0.02) 4px
+    );
   position: relative;
   overflow: hidden;
 }
@@ -187,6 +223,21 @@
   padding: var(--space-7) var(--space-5);
   border: 3px dashed var(--primary);
   background-color: var(--surface-container-low);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(139, 119, 75, 0.03) 2px,
+      rgba(139, 119, 75, 0.03) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(139, 119, 75, 0.02) 2px,
+      rgba(139, 119, 75, 0.02) 4px
+    );
 }
 
 .loadingIcon {
@@ -216,6 +267,21 @@
   padding: var(--space-7) var(--space-5);
   border: 3px dashed var(--outline);
   background-color: var(--surface-container-low);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(139, 119, 75, 0.03) 2px,
+      rgba(139, 119, 75, 0.03) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(139, 119, 75, 0.02) 2px,
+      rgba(139, 119, 75, 0.02) 4px
+    );
 }
 
 .emptyText {

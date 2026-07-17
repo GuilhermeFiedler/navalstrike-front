@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
+import OceanBackground from "../../components/OceanBackground";
 import api from "../../utils/api";
 import styles from "./Logbook.module.css";
 import { FaClipboardList } from "react-icons/fa";
@@ -56,6 +57,7 @@ export default function Logbook() {
       <Sidebar />
 
       <main className={styles.content}>
+        <OceanBackground />
         <header className={styles.header}>
           <h1 className={styles.title}>Logbook</h1>
           <div className={styles.headerActions}>

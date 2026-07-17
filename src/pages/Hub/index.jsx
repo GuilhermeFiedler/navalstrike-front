@@ -1,4 +1,5 @@
 import Sidebar from "../../components/sidebar/Sidebar";
+import OceanBackground from "../../components/OceanBackground";
 import useMatches from "../../hooks/useMatches";
 import HubHeader from "./HubHeader";
 import MatchList from "./MatchList";
@@ -26,6 +27,7 @@ export default function Hub() {
       <Sidebar />
 
       <main className={styles.content}>
+        <OceanBackground />
         <HubHeader
           onRefresh={fetchMatches}
           onCreate={handleCreate}

@@ -1,0 +1,19 @@
+.ocean {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background-image: url("../assets/lobby/spritesheet_grid_oceanwaves.png");
+  background-size: 300% 200%;
+  animation: play 1.2s steps(1) infinite;
+  image-rendering: pixelated;
+}
+
+@keyframes play {
+  0%      { background-position: 0% 0%; }
+  16.667% { background-position: 50% 0%; }
+  33.333% { background-position: 100% 0%; }
+  50%     { background-position: 0% 100%; }
+  66.667% { background-position: 50% 100%; }
+  83.333% { background-position: 100% 100%; }
+}

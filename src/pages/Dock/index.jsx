@@ -1,4 +1,5 @@
 import Sidebar from "../../components/sidebar/Sidebar";
+import OceanBackground from "../../components/OceanBackground";
 import useSkins from "../../hooks/useSkins";
 import SkinCard from "./SkinCard";
 import DefaultSkinCard from "./DefaultSkinCard";
@@ -14,6 +15,7 @@ export default function Dock() {
       <Sidebar />
 
       <main className={styles.content}>
+        <OceanBackground />
         <header className={styles.header}>
           <h1 className={styles.title}>Doca de Skins</h1>
           <span className={styles.subtitle}>
