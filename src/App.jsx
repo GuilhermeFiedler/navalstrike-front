@@ -4,6 +4,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Hub from './pages/Hub'
 import Dock from './pages/Dock'
+import Ranking from './pages/Ranking'
 import Match from './pages/Match'
 import Logbook from './pages/Logbook'
 
@@ -20,6 +21,11 @@ function App() {
       <Route path="/dock" element={
         <ProtectedRoute>
           <Dock />
+        </ProtectedRoute>
+      } />
+      <Route path="/ranking" element={
+        <ProtectedRoute>
+          <Ranking />
         </ProtectedRoute>
       } />
       <Route path="/logbook" element={

@@ -1,23 +1,34 @@
 import { useState, useEffect, useCallback } from "react";
 import api from "../utils/api";
-import { PAGE_SIZE } from "../constants";
+
+const DEFAULT_PAGE_SIZE = 5;
 
 export default function useHistory() {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalElements, setTotalElements] = useState(0);
+  const [victories, setVictories] = useState(0);
+  const [defeats, setDefeats] = useState(0);
 
-  const fetchHistory = useCallback(async () => {
+  const fetchHistory = useCallback(async (targetPage = 0) => {
     setLoading(true);
     setError("");
     try {
       const [res] = await Promise.all([
-        api.get("/matches/history"),
+        api.get("/matches/history", {
+          params: { page: targetPage, size: DEFAULT_PAGE_SIZE },
+        }),
         new Promise((r) => setTimeout(r, 800)),
       ]);
-      setHistory(res.data);
-      setPage(0);
+      setHistory(res.data.content);
+      setPage(res.data.page);
+      setTotalPages(res.data.totalPages);
+      setTotalElements(res.data.totalElements);
+      setVictories(res.data.totalVictories);
+      setDefeats(res.data.totalDefeats);
     } catch {
       setError("Erro ao carregar histórico de partidas");
       setHistory([]);
@@ -27,24 +38,24 @@ export default function useHistory() {
   }, []);
 
   useEffect(() => {
-    fetchHistory();
+    fetchHistory(0);
   }, [fetchHistory]);
 
-  const victories = history.filter((m) => m.result === "VICTORY").length;
-  const defeats = history.filter((m) => m.result === "DEFEAT").length;
-  const totalPages = Math.ceil(history.length / PAGE_SIZE);
-  const paginatedHistory = history.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+  function goToPage(newPage) {
+    setPage(newPage);
+    fetchHistory(newPage);
+  }
 
   return {
     history,
-    paginatedHistory,
     loading,
     error,
     page,
     totalPages,
+    totalElements,
     victories,
     defeats,
-    setPage,
+    goToPage,
     fetchHistory,
   };
 }

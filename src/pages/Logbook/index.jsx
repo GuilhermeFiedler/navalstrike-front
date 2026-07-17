@@ -11,14 +11,14 @@ import { FaClipboardList } from "react-icons/fa";
 export default function Logbook() {
   const {
     history,
-    paginatedHistory,
     loading,
     error,
     page,
     totalPages,
+    totalElements,
     victories,
     defeats,
-    setPage,
+    goToPage,
     fetchHistory,
   } = useHistory();
 
@@ -33,7 +33,7 @@ export default function Logbook() {
           <div className={styles.headerActions}>
             <Button
               variant="ghost"
-              onClick={fetchHistory}
+              onClick={() => fetchHistory(0)}
               disabled={loading}
             >
               Atualizar
@@ -43,16 +43,16 @@ export default function Logbook() {
 
         {error && <p className={styles.error}>{error}</p>}
 
-        {!loading && history.length > 0 && (
+        {!loading && totalElements > 0 && (
           <StatsRow
-            total={history.length}
+            total={totalElements}
             victories={victories}
             defeats={defeats}
           />
         )}
 
         <div className={styles.matchList}>
-          {paginatedHistory.map((match) => (
+          {history.map((match) => (
             <MatchHistoryCard key={match.id} match={match} />
           ))}
 
@@ -78,7 +78,7 @@ export default function Logbook() {
         <Pagination
           page={page}
           totalPages={totalPages}
-          onPageChange={setPage}
+          onPageChange={goToPage}
         />
       </main>
     </div>
