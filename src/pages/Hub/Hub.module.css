@@ -90,10 +90,6 @@
   gap: var(--space-5);
 }
 
-.codeSection {
-  margin-bottom: var(--space-6);
-}
-
 .codeWrapper {
   margin-bottom: var(--space-6);
 }
@@ -103,6 +99,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
+  width: 100%;
 }
 
 .matchIcon {
