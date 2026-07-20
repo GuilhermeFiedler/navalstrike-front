@@ -19,6 +19,7 @@ Naval Strike é um jogo de batalha naval online onde dois jogadores se enfrentam
 - Combate em turnos com feedback sonoro e animações
 - Sistema de skins (pacotes visuais para navios)
 - Histórico de partidas (Logbook)
+- Ranking de jogadores
 - Reconexão automática (10s de timeout)
 - Forfeit automático por desconexão
 
@@ -121,6 +122,7 @@ npm run test:run  # single run
 | `/hub` | Hub | Lobby — criar/entrar em partidas |
 | `/dock` | Dock | Gerenciar skins equipadas |
 | `/logbook` | Logbook | Histórico de partidas |
+| `/ranking` | Ranking | Ranking de jogadores |
 | `/match/:id` | Match | Partida em tempo real |
 
 ---
