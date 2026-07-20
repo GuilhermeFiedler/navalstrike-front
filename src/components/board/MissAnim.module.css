@@ -1,16 +1,48 @@
 .wrapper {
   position: absolute;
-  inset: -30%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 58px;
+  height: 44px;
   pointer-events: none;
   z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
 }
 
-.frame {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+.sprite {
+  width: 406px;
+  height: 44px;
+  background-image: url("../../assets/missanimation/missAnimationSpritesheet.png");
+  background-repeat: no-repeat;
+  background-size: 406px 44px;
+  background-position: 0 0;
   image-rendering: pixelated;
+  animation: splash 800ms steps(7) forwards;
+}
+
+@keyframes splash {
+  to {
+    background-position-x: -406px;
+  }
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    width: 42px;
+    height: 32px;
+  }
+
+  .sprite {
+    width: 294px;
+    height: 32px;
+    background-size: 294px 32px;
+    animation: splashMobile 800ms steps(7) forwards;
+  }
+
+  @keyframes splashMobile {
+    to {
+      background-position-x: -294px;
+    }
+  }
 }

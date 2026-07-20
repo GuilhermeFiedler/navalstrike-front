@@ -1,16 +1,48 @@
 .wrapper {
   position: absolute;
-  inset: -30%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 66px;
+  height: 44px;
   pointer-events: none;
   z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
 }
 
-.frame {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+.sprite {
+  width: 528px;
+  height: 44px;
+  background-image: url("../../assets/explosion/explosionAnimationSpritesheet.png");
+  background-repeat: no-repeat;
+  background-size: 528px 44px;
+  background-position: 0 0;
   image-rendering: pixelated;
+  animation: explode 900ms steps(8) forwards;
+}
+
+@keyframes explode {
+  to {
+    background-position-x: -528px;
+  }
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    width: 48px;
+    height: 32px;
+  }
+
+  .sprite {
+    width: 384px;
+    height: 32px;
+    background-size: 384px 32px;
+    animation: explodeMobile 900ms steps(8) forwards;
+  }
+
+  @keyframes explodeMobile {
+    to {
+      background-position-x: -384px;
+    }
+  }
 }
