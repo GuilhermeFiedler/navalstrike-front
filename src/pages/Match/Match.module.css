@@ -172,6 +172,20 @@
   box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
 }
 
+.placingHint {
+  font-size: 10px;
+  color: #6bc4e8;
+  opacity: 0.8;
+}
+
+.placingHint kbd {
+  background: #2a5a7c;
+  border: 2px solid #6bc4e8;
+  padding: 1px 5px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+}
+
 .ongoing {
   display: flex;
   flex-direction: column;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../../../utils/api";
 import { SHIPS } from "../shipConfig";
 import { getShipCoords, hasCollision } from "../../../utils/placingUtils";
@@ -16,6 +16,18 @@ export default function Placing({ matchId, onPlaced, myName = "Você", opponentN
   const [allPlaced, setAllPlaced] = useState(false);
 
   const currentShip = SHIPS[currentShipIndex];
+
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.key === "r" || e.key === "R") {
+        toggleOrientation();
+      }
+    }
+    if (!allPlaced) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [allPlaced]);
 
   function toggleOrientation() {
     setOrientation((prev) => (prev === "horizontal" ? "vertical" : "horizontal"));
@@ -93,6 +105,7 @@ export default function Placing({ matchId, onPlaced, myName = "Você", opponentN
               {orientation === "horizontal" ? "Horizontal ↔" : "Vertical ↕"}
             </button>
           </p>
+          <p className={styles.placingHint}><kbd>R</kbd> para rotacionar</p>
         </div>
       )}
 
