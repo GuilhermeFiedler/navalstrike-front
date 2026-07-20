@@ -59,7 +59,15 @@
 }
 
 .anchor {
-  font-size: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  image-rendering: pixelated;
 }
 
 .title {
