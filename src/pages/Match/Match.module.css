@@ -318,6 +318,71 @@
   .ongoing h2 {
     font-size: 11px;
   }
+
+  .playerCards {
+    gap: var(--space-2);
+  }
+
+  .playerCard {
+    padding: var(--space-1) var(--space-3);
+  }
+
+  .playerCardName {
+    font-size: 8px;
+  }
+
+  .playerVs {
+    font-size: 9px;
+  }
+}
+
+.playerCards {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.playerCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 3px solid;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5);
+}
+
+.playerCardMe {
+  background: #1a3a5c;
+  border-color: #6bc4e8;
+}
+
+.playerCardOpponent {
+  background: #3a1a2c;
+  border-color: #ff7480;
+}
+
+.playerCardIcon {
+  font-size: 12px;
+  color: #a0d4ef;
+}
+
+.playerCardOpponent .playerCardIcon {
+  color: #ff7480;
+}
+
+.playerCardName {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.playerVs {
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  color: #ff7480;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
 }
 
 

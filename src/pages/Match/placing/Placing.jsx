@@ -5,8 +5,9 @@ import { getShipCoords, hasCollision } from "../../../utils/placingUtils";
 import PlacingBoard from "./PlacingBoard";
 import ShipList from "../ShipList";
 import styles from "../Match.module.css";
+import { FaUser } from "react-icons/fa";
 
-export default function Placing({ matchId, onPlaced }) {
+export default function Placing({ matchId, onPlaced, myName = "Você", opponentName = "Oponente" }) {
   const [placedShips, setPlacedShips] = useState([]);
   const [currentShipIndex, setCurrentShipIndex] = useState(0);
   const [orientation, setOrientation] = useState("horizontal");
@@ -67,6 +68,18 @@ export default function Placing({ matchId, onPlaced }) {
 
   return (
     <div className={styles.placing}>
+      <div className={styles.playerCards}>
+        <div className={`${styles.playerCard} ${styles.playerCardMe}`}>
+          <FaUser className={styles.playerCardIcon} />
+          <span className={styles.playerCardName}>{myName}</span>
+        </div>
+        <span className={styles.playerVs}>VS</span>
+        <div className={`${styles.playerCard} ${styles.playerCardOpponent}`}>
+          <FaUser className={styles.playerCardIcon} />
+          <span className={styles.playerCardName}>{opponentName}</span>
+        </div>
+      </div>
+
       <h2>Posicione seus navios</h2>
 
       {!allPlaced && currentShip && (

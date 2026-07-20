@@ -247,7 +247,13 @@ export default function Match() {
 
       {match.status === GAME_STATUS.WAITING && <Waiting code={state?.code} />}
       {match.status === GAME_STATUS.PLACING && (
-        <Placing matchId={id} myBoard={match.myBoard} onPlaced={handlePlaced} />
+        <Placing
+          matchId={id}
+          myBoard={match.myBoard}
+          onPlaced={handlePlaced}
+          myName={match.myName || user.name}
+          opponentName={match.opponentName || "Oponente"}
+        />
       )}
       {match.status === GAME_STATUS.ON_GOING && (
         <OnGoing
@@ -260,6 +266,8 @@ export default function Match() {
           missAnims={missAnims}
           onExplosionEnd={removeExplosion}
           onMissAnimEnd={removeMissAnim}
+          myName={match.myName || user.name}
+          opponentName={match.opponentName || "Oponente"}
         />
       )}
       {match.status === GAME_STATUS.FINISHED && (
