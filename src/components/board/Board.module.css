@@ -75,28 +75,33 @@
 }
 
 .hit {
-  background: rgba(169, 51, 66, 0.3);
+  background-color: rgba(169, 51, 66, 0.3);
+  background-image: url("../../assets/acerto.png");
+  background-size: 30px 30px;
+  background-position: center;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
   position: relative;
   z-index: 2;
 }
 
 .miss {
-  background: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
+  background-image: url("../../assets/erro.png");
+  background-size: 30px 30px;
+  background-position: center;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
   position: relative;
   z-index: 2;
 }
 
 .sunk {
-  background: transparent;
-  position: relative;
-  z-index: 3;
-}
-
-.cellIcon {
-  width: 30px;
-  height: 30px;
-  object-fit: contain;
-  pointer-events: none;
+  background-color: transparent;
+  background-image: url("../../assets/navioafundado.png");
+  background-size: 30px 30px;
+  background-position: center;
+  background-repeat: no-repeat;
   image-rendering: pixelated;
   position: relative;
   z-index: 3;
@@ -104,6 +109,10 @@
 
 .preview {
   background: rgba(107, 196, 232, 0.3);
+}
+
+.animating {
+  background-image: none !important;
 }
 
 .shipImage {
@@ -134,8 +143,9 @@
     font-size: 8px;
   }
 
-  .cellIcon {
-    width: 22px;
-    height: 22px;
+  .hit,
+  .miss,
+  .sunk {
+    background-size: 22px 22px;
   }
 }
