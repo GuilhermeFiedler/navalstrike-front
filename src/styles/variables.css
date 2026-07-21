@@ -1,0 +1,57 @@
+:root {
+  --primary: #002a46;
+  --primary-container: #004168;
+  --on-primary: #ffffff;
+  --on-primary-container: #7aadde;
+
+  --secondary: #a93342;
+  --secondary-container: #ff7480;
+  --on-secondary: #ffffff;
+  --on-secondary-container: #73061e;
+
+  --tertiary: #352500;
+  --tertiary-container: #503a00;
+  --on-tertiary: #ffffff;
+  --on-tertiary-container: #d4a017;
+
+  --surface: #E7EEF3;
+  --surface-dim: #c9d6df;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #F6F1E4;
+  --surface-container: #f0ead9;
+  --surface-container-high: #e8e2d1;
+  --surface-container-highest: #e0dac9;
+  --on-surface: #211b09;
+  --on-surface-variant: #514349;
+  --background: #E7EEF3;
+  --on-background: #211b09;
+
+  --outline: #83737a;
+  --outline-variant: #d5c1c9;
+
+  --error: #ba1a1a;
+  --on-error: #ffffff;
+  --error-container: #ffdad6;
+  --on-error-container: #93000a;
+
+  --inverse-surface: #36301c;
+  --inverse-on-surface: #fcf0d2;
+
+  --font-pixel: 'Press Start 2P', cursive;
+  --font-body: 'Silkscreen', cursive;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 40px;
+  --space-8: 48px;
+  --space-9: 56px;
+  --space-10: 64px;
+
+  --border-sm: 2px;
+  --border-md: 3px;
+  --border-lg: 4px;
+}
