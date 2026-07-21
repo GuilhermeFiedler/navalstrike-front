@@ -85,7 +85,7 @@ export default function Match() {
         break;
 
       case WS_EVENTS.PLAYER_JOINED:
-        setMatch((prev) => prev ? { ...prev, status: GAME_STATUS.PLACING } : prev);
+        refreshMatch();
         break;
 
       case WS_EVENTS.SHIPS_PLACED:
